@@ -1,6 +1,5 @@
 from utils.core import create_sessions
 from utils.telegram import Accounts
-from utils.yescoin import Yescoin
 from utils.blum import Blum
 from data.config import hello,USE_PROXY
 import asyncio
