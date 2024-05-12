@@ -4,4 +4,4 @@ if you want to use Proxy, set USE_PROXY in config.py to True, otherwise False. I
 <br>IMPORTANT</br>
 With one api_ad and api_hash the software will work with all accounts, no need to change them for each account
 <br>DONT FORGET</br>
-Create folder sessions
+Create sessions folder
