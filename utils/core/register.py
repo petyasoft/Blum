@@ -2,7 +2,7 @@ from loguru import logger
 from data import config
 import pyrogram
 import os
-from data.config import USE_PROXY
+from data.config import USE_PROXY,SESSIONS_PATH
 
 async def create_sessions():
     while True:
@@ -10,13 +10,12 @@ async def create_sessions():
         if not session_name:
             return
         
-        directory = f'{os.path.dirname(__file__)}/sessions/'
-        len_sessions = len(os.listdir(directory))
-        
         with open('proxy.txt','r') as file:
             proxy = [i.strip() for i in file.readlines()]
         
         if USE_PROXY:
+            len_sessions = len(os.listdir(SESSIONS_PATH))
+            
             if len(proxy)>len_sessions:
                 
                 proxy = proxy[len_sessions]
