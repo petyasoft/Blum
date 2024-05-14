@@ -42,7 +42,13 @@ class Blum:
             
             try:
                 timestamp, start_time, end_time = await self.balance()
-
+                
+                await self.get_referral_info()
+                await asyncio.sleep(5)
+                
+                await self.do_tasks()
+                await asyncio.sleep(5)
+                
                 if start_time is None and end_time is None:
                     await self.start()
                     logger.info(f"Thread {self.thread} | Start farming!")
@@ -99,3 +105,29 @@ class Blum:
         auth_url = web_view.url
         await self.client.disconnect()
         return unquote(string=unquote(string=auth_url.split('tgWebAppData=')[1].split('&tgWebAppVersion')[0]))
+    
+    async def get_referral_info(self):
+        resp = await self.session.get("https://gateway.blum.codes/v1/friends/balance",proxy = self.proxy)
+        resp_json = await resp.json()
+        if resp_json['canClaim'] == True:
+            claimed = await self.claim_referral()
+            logger.success(f"Thread {self.thread} | Claimed referral reward! Claimed: {claimed}")
+        
+    
+    async def claim_referral(self):
+        resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/claim",proxy = self.proxy)
+        resp_json = await resp.json()
+        return resp_json['claimBalance']
+    
+    async def do_tasks(self):
+        resp = await self.session.get("https://game-domain.blum.codes/api/v1/tasks",proxy = self.proxy)
+        resp_json = await resp.json()
+        for task in resp_json:
+            if task['status'] == "NOT_STARTED":
+                await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
+                await asyncio.sleep(3)
+            elif task['status'] == "DONE":
+                answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
+                answer = await answer.json()
+                logger.success(f"Thread {self.thread} | Claimed TASK reward! Claimed: {answer['reward']}")
+                await asyncio.sleep(3)
