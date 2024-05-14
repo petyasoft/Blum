@@ -6,3 +6,5 @@ With one api_ad and api_hash the software will work with all accounts, no need t
 <br></br>
 <br>DONT FORGET</br>
 Create sessions folder
+
+IF YOU ARE USING A PROXY, REMEMBER TO SPECIFY SESSIONS_PATH
