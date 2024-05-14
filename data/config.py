@@ -11,6 +11,8 @@ WORKDIR = "sessions/"
 # использование прокси
 USE_PROXY = True # True/False
 
+# полный путь к вашей папке sessions 
+SESSIONS_PATH = "YOUR PATH TO SESSIONS"
 
 hello ='''              _                               __  _        
  _ __    ___ | |_  _   _   __ _  ___   ___   / _|| |_  ___ 
