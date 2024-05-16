@@ -10,6 +10,8 @@ import aiohttp
 import asyncio
 import random
 
+auth_token = ""
+ref_token=""
 
 class Blum:
     def __init__(self, thread: int, account: str, proxy : str):
@@ -37,12 +39,16 @@ class Blum:
     async def main(self):
         await asyncio.sleep(random.uniform(config.ACC_DELAY[0], config.ACC_DELAY[1]))
         await self.login()
-
+        logger.info(f"Thread {self.thread} | Start!")
         while True:
-            
             try:
-                timestamp, start_time, end_time = await self.balance()
+                valid = await self.is_token_valid()
+                if not valid:
+                    logger.warning("Token is invalid. Refreshing token...")
+                    await self.refresh_token()
+                await asyncio.sleep(5)
                 
+                timestamp, start_time, end_time = await self.balance()
                 await self.get_referral_info()
                 await asyncio.sleep(5)
                 
@@ -58,13 +64,12 @@ class Blum:
                     logger.success(f"Thread {self.thread} | Claimed reward! Balance: {balance}")
 
                 else:
-                    logger.info(f"Thread {self.thread} | Sleep {end_time-timestamp} seconds!")
+                    logger.info(f"Thread {self.thread} | Sleep {(end_time-timestamp)} seconds!")
                     await asyncio.sleep(end_time-timestamp)
+                await asyncio.sleep(60)
+            except Exception as err:
+                logger.error(err)
 
-                await asyncio.sleep(60)
-            except Exception as e:
-                logger.error(f"Thread {self.thread} | Error: {e}")
-                await asyncio.sleep(60)
 
     async def claim(self):
         resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/claim",proxy = self.proxy)
@@ -86,10 +91,13 @@ class Blum:
         return int(timestamp/1000), None, None
 
     async def login(self):
+        global ref_token
+        
         json_data = {"query": await self.get_tg_web_data()}
-
         resp = await self.session.post("https://gateway.blum.codes/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP", json=json_data,proxy = self.proxy)
-        self.session.headers['Authorization'] = "Bearer " + (await resp.json()).get("token").get("access")
+        resp = await resp.json()
+        ref_token = resp.get("token").get("refresh")
+        self.session.headers['Authorization'] = "Bearer " + (resp).get("token").get("access")
 
     async def get_tg_web_data(self):
         await self.client.connect()
@@ -131,3 +139,42 @@ class Blum:
                 answer = await answer.json()
                 logger.success(f"Thread {self.thread} | Claimed TASK reward! Claimed: {answer['reward']}")
                 await asyncio.sleep(3)
+    
+    async def is_token_valid(self):
+        response = await self.session.get("https://gateway.blum.codes/v1/user/me",proxy=self.proxy)
+        
+        if response.status == 200:
+            return True
+        elif response.status == 401:
+            error_info = await response.json()
+            return error_info.get("code") != 16
+        else:
+            return False
+    
+    async def refresh_token(self):
+        global auth_token
+        global ref_token
+        
+        refresh_payload = {
+            'refresh': ref_token  # The refresh token in the request body
+        }
+        
+        if "authorization" in self.session.headers:
+            del self.session.headers['authorization']
+            
+        response = await self.session.post("https://gateway.blum.codes/v1/auth/refresh",json=refresh_payload,proxy=self.proxy)
+        
+        if response.status == 200:
+            data = await response.json()  
+            new_access_token = data.get("access")  
+            new_refresh_token = data.get("refresh")
+
+            if new_access_token:
+                auth_token = new_access_token  
+                ref_token = new_refresh_token  
+                self.session.headers['Authorization'] = "Bearer "+auth_token
+                logger.info("Token refreshed successfully.")
+            else:
+                raise Exception("New access token not found in the response")
+        else:
+            raise Exception("Failed to refresh the token")
