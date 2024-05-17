@@ -1,7 +1,7 @@
 from pyrogram.raw.functions.messages import RequestWebView
 from urllib.parse import unquote
 from utils.core import logger
-
+from datetime import datetime
 from fake_useragent import UserAgent
 from pyrogram import Client
 from data import config
@@ -42,11 +42,11 @@ class Blum:
         logger.info(f"Thread {self.thread} | Start!")
         while True:
             try:
-                valid = await self.is_token_valid()
-                if not valid:
-                    logger.warning("Token is invalid. Refreshing token...")
-                    await self.refresh_token()
-                await asyncio.sleep(5)
+                # valid = await self.is_token_valid()
+                # if not valid:
+                #     logger.warning("Token is invalid. Refreshing token...")
+                #     await self.refresh_token()
+                # await asyncio.sleep(5)
                 
                 timestamp, start_time, end_time = await self.balance()
                 await self.get_referral_info()
@@ -64,8 +64,8 @@ class Blum:
                     logger.success(f"Thread {self.thread} | Claimed reward! Balance: {balance}")
 
                 else:
-                    logger.info(f"Thread {self.thread} | Sleep {(end_time-timestamp)} seconds!")
-                    await asyncio.sleep(end_time-timestamp)
+                    logger.info(f"Thread {self.thread} | Sleep {60*60} seconds!")
+                    await asyncio.sleep(60*60)
                 await asyncio.sleep(60)
             except Exception as err:
                 logger.error(err)
@@ -87,8 +87,8 @@ class Blum:
         if resp_json.get("farming"):
             start_time = resp_json.get("farming").get("startTime")
             end_time = resp_json.get("farming").get("endTime")
-            return int(timestamp/1000), int(start_time/1000), int(end_time/1000)
-        return int(timestamp/1000), None, None
+            return int(datetime.now().timestamp()), int(start_time/1000), int(end_time/1000)
+        return int(datetime.now().timestamp()), None, None
 
     async def login(self):
         global ref_token
