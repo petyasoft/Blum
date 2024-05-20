@@ -44,7 +44,7 @@ class Blum:
             try:
                 valid = await self.is_token_valid()
                 if not valid:
-                    logger.warning("Token is invalid. Refreshing token...")
+                    logger.warning(f"Thread {self.thread} | Token is invalid. Refreshing token...")
                     await self.refresh_token()
                 await asyncio.sleep(5)
                 
@@ -173,7 +173,7 @@ class Blum:
                 auth_token = new_access_token  
                 ref_token = new_refresh_token  
                 self.session.headers['Authorization'] = "Bearer "+auth_token
-                logger.info("Token refreshed successfully.")
+                logger.info(f"Thread {self.thread} | Token refreshed successfully.")
             else:
                 raise Exception("New access token not found in the response")
         else:
