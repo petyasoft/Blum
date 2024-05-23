@@ -1,7 +1,7 @@
 from pyrogram.raw.functions.messages import RequestWebView
 from urllib.parse import unquote
 from utils.core import logger
-
+from datetime import datetime
 from fake_useragent import UserAgent
 from pyrogram import Client
 from data import config
@@ -39,6 +39,8 @@ class Blum:
     async def main(self):
         await asyncio.sleep(random.uniform(config.ACC_DELAY[0], config.ACC_DELAY[1]))
         await self.login()
+        await self.claim_diamond()
+        
         logger.info(f"Thread {self.thread} | Start!")
         while True:
             try:
@@ -55,6 +57,9 @@ class Blum:
                 await self.do_tasks()
                 await asyncio.sleep(5)
                 
+                await self.game()
+                await asyncio.sleep(5)
+                
                 if start_time is None and end_time is None:
                     await self.start()
                     logger.info(f"Thread {self.thread} | Start farming!")
@@ -62,33 +67,45 @@ class Blum:
                 elif start_time is not None and end_time is not None and timestamp >= end_time:
                     timestamp, balance = await self.claim()
                     logger.success(f"Thread {self.thread} | Claimed reward! Balance: {balance}")
-
+                
                 else:
                     logger.info(f"Thread {self.thread} | Sleep {(end_time-timestamp)} seconds!")
                     await asyncio.sleep(end_time-timestamp)
+                    
                 await asyncio.sleep(60)
             except Exception as err:
-                logger.error(err)
+                logger.error(f"Thread {self.thread} | {err}")
 
 
     async def claim(self):
-        resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/claim",proxy = self.proxy)
-        resp_json = await resp.json()
+        try:
+            resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/claim",proxy = self.proxy)
+            resp_json = await resp.json()
 
-        return int(resp_json.get("timestamp")/1000), resp_json.get("availableBalance")
+            return int(resp_json.get("timestamp")/1000), resp_json.get("availableBalance")
+        except:
+            pass
 
     async def start(self):
-        resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/start",proxy = self.proxy)
-
+        try:
+            resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/start",proxy = self.proxy)
+        except:
+            pass
+        
     async def balance(self):
-        resp = await self.session.get("https://game-domain.blum.codes/api/v1/user/balance",proxy = self.proxy)
-        resp_json = await resp.json()
-        timestamp = resp_json.get("timestamp")
-        if resp_json.get("farming"):
-            start_time = resp_json.get("farming").get("startTime")
-            end_time = resp_json.get("farming").get("endTime")
-            return int(timestamp/1000), int(start_time/1000), int(end_time/1000)
-        return int(timestamp/1000), None, None
+        try:
+            
+            resp = await self.session.get("https://game-domain.blum.codes/api/v1/user/balance",proxy = self.proxy)
+            resp_json = await resp.json()
+
+            timestamp = resp_json.get("timestamp")
+            if resp_json.get("farming"):
+                start_time = resp_json.get("farming").get("startTime")
+                end_time = resp_json.get("farming").get("endTime")
+                return int(datetime.now().timestamp()), int(start_time/1000), int(end_time/1000)
+            return int(datetime.now().timestamp()), None, None
+        except:
+            pass
 
     async def login(self):
         global ref_token
@@ -130,15 +147,18 @@ class Blum:
     async def do_tasks(self):
         resp = await self.session.get("https://game-domain.blum.codes/api/v1/tasks",proxy = self.proxy)
         resp_json = await resp.json()
-        for task in resp_json:
-            if task['status'] == "NOT_STARTED":
-                await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
-                await asyncio.sleep(3)
-            elif task['status'] == "DONE":
-                answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
-                answer = await answer.json()
-                logger.success(f"Thread {self.thread} | Claimed TASK reward! Claimed: {answer['reward']}")
-                await asyncio.sleep(3)
+        try:
+            for task in resp_json:
+                if task['status'] == "NOT_STARTED":
+                    await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
+                    await asyncio.sleep(3)
+                elif task['status'] == "DONE":
+                    answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
+                    answer = await answer.json()
+                    logger.success(f"Thread {self.thread} | Claimed TASK reward! Claimed: {answer['reward']}")
+                    await asyncio.sleep(3)
+        except Exception as err:
+            logger.error(f"Thread {self.thread} | {err}")
     
     async def is_token_valid(self):
         response = await self.session.get("https://gateway.blum.codes/v1/user/me",proxy=self.proxy)
@@ -178,3 +198,38 @@ class Blum:
                 raise Exception("New access token not found in the response")
         else:
             raise Exception("Failed to refresh the token")
+    
+    async def game(self):
+        
+        resp = await self.session.get("https://game-domain.blum.codes/api/v1/user/balance",proxy = self.proxy)
+        resp_json = await resp.json()
+        
+        logger.info(f"Thread {self.thread} | Have {resp_json['playPasses']} diamonds!")
+        if resp_json['playPasses']!=0:
+            response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
+            logger.info(f"Thread {self.thread} | Start DROP GAME!")
+            if 'message' in await response.json():
+                logger.error(f"Thread {self.thread} | DROP GAME CAN'T START")
+                return
+            text = (await response.json())['gameId']
+            await asyncio.sleep(30)
+            count = random.randint(*config.POINTS)
+            
+            json_data = {
+                'gameId': text,
+                'points': count,
+            }
+
+            response = await self.session.post('https://game-domain.blum.codes/api/v1/game/claim', json=json_data, proxy=self.proxy)
+            
+            if await response.text() == "OK":
+                logger.success(f"Thread {self.thread} | Claimed DROP GAME ! Claimed: {count}")
+            else:
+                logger.error(f"Thread {self.thread} | {await response.text()}")
+    
+    async def claim_diamond(self):
+
+        resp = await self.session.post("https://game-domain.blum.codes/api/v1/daily-reward?offset=-180", proxy=self.proxy)
+        txt = await resp.text()
+        
+        return True if txt == 'OK' else txt
