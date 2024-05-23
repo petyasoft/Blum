@@ -57,8 +57,13 @@ class Blum:
                 await self.do_tasks()
                 await asyncio.sleep(5)
                 
-                await self.game()
-                await asyncio.sleep(5)
+                if config.SPEND_DIAMONDS:
+                    diamonds_balance = self.get_diamonds_balance()
+                    while diamonds_balance != 0:
+                        logger.info(f"Thread {self.thread} | Have {diamonds_balance} diamonds!")
+                        await self.game()
+                        await asyncio.sleep(random.randint(20,100))
+                        diamonds_balance = self.get_diamonds_balance()
                 
                 if start_time is None and end_time is None:
                     await self.start()
@@ -176,7 +181,7 @@ class Blum:
         global ref_token
         
         refresh_payload = {
-            'refresh': ref_token  
+            'refresh': ref_token  # The refresh token in the request body
         }
         
         if "authorization" in self.session.headers:
@@ -199,33 +204,33 @@ class Blum:
         else:
             raise Exception("Failed to refresh the token")
     
-    async def game(self):
-        
+    async def get_diamonds_balance(self):
         resp = await self.session.get("https://game-domain.blum.codes/api/v1/user/balance",proxy = self.proxy)
         resp_json = await resp.json()
-        
-        logger.info(f"Thread {self.thread} | Have {resp_json['playPasses']} diamonds!")
-        if resp_json['playPasses']!=0:
-            response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
-            logger.info(f"Thread {self.thread} | Start DROP GAME!")
-            if 'message' in await response.json():
-                logger.error(f"Thread {self.thread} | DROP GAME CAN'T START")
-                return
-            text = (await response.json())['gameId']
-            await asyncio.sleep(30)
-            count = random.randint(*config.POINTS)
-            
-            json_data = {
-                'gameId': text,
-                'points': count,
-            }
+        return resp_json['playPasses']
+    
+    async def game(self):
 
-            response = await self.session.post('https://game-domain.blum.codes/api/v1/game/claim', json=json_data, proxy=self.proxy)
-            
-            if await response.text() == "OK":
-                logger.success(f"Thread {self.thread} | Claimed DROP GAME ! Claimed: {count}")
-            else:
-                logger.error(f"Thread {self.thread} | {await response.text()}")
+        response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
+        logger.info(f"Thread {self.thread} | Start DROP GAME!")
+        if 'message' in await response.json():
+            logger.error(f"Thread {self.thread} | DROP GAME CAN'T START")
+            return
+        text = (await response.json())['gameId']
+        await asyncio.sleep(30)
+        count = random.randint(*config.POINTS)
+        
+        json_data = {
+            'gameId': text,
+            'points': count,
+        }
+
+        response = await self.session.post('https://game-domain.blum.codes/api/v1/game/claim', json=json_data, proxy=self.proxy)
+        
+        if await response.text() == "OK":
+            logger.success(f"Thread {self.thread} | Claimed DROP GAME ! Claimed: {count}")
+        else:
+            logger.error(f"Thread {self.thread} | {await response.text()}")
     
     async def claim_diamond(self):
 
