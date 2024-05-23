@@ -14,6 +14,9 @@ USE_PROXY = True # True/False
 # полный путь к вашей папке sessions 
 SESSIONS_PATH = "YOUR PATH TO SESSIONS"
 
+# скок поинтов с игры
+POINTS = [100, 140]
+
 hello ='''              _                               __  _        
  _ __    ___ | |_  _   _   __ _  ___   ___   / _|| |_  ___ 
 | '_ \  / _ \| __|| | | | / _` |/ __| / _ \ | |_ | __|/ __|
