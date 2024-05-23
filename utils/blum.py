@@ -140,7 +140,7 @@ class Blum:
         
     
     async def claim_referral(self):
-        resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/claim",proxy = self.proxy)
+        resp = await self.session.post("https://gateway.blum.codes/v1/friends/claim",proxy = self.proxy)
         resp_json = await resp.json()
         return resp_json['claimBalance']
     
@@ -176,7 +176,7 @@ class Blum:
         global ref_token
         
         refresh_payload = {
-            'refresh': ref_token  # The refresh token in the request body
+            'refresh': ref_token  
         }
         
         if "authorization" in self.session.headers:
