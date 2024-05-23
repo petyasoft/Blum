@@ -39,7 +39,6 @@ class Blum:
     async def main(self):
         await asyncio.sleep(random.uniform(config.ACC_DELAY[0], config.ACC_DELAY[1]))
         await self.login()
-        await self.claim_diamond()
         
         logger.info(f"Thread {self.thread} | Start!")
         while True:
@@ -50,6 +49,9 @@ class Blum:
                     await self.refresh_token()
                 await asyncio.sleep(5)
                 
+                await self.claim_diamond()
+                await asyncio.sleep(5)
+                
                 timestamp, start_time, end_time = await self.balance()
                 await self.get_referral_info()
                 await asyncio.sleep(5)
@@ -58,17 +60,16 @@ class Blum:
                 await asyncio.sleep(5)
                 
                 if config.SPEND_DIAMONDS:
-                    diamonds_balance = self.get_diamonds_balance()
+                    diamonds_balance = await self.get_diamonds_balance()
                     while diamonds_balance != 0:
                         logger.info(f"Thread {self.thread} | Have {diamonds_balance} diamonds!")
                         await self.game()
-                        await asyncio.sleep(random.randint(20,100))
-                        diamonds_balance = self.get_diamonds_balance()
-                
+                        await asyncio.sleep(random.randint(*config.SLEEP_GAME_TIME))
+                        diamonds_balance = await self.get_diamonds_balance()
+                        
                 if start_time is None and end_time is None:
                     await self.start()
                     logger.info(f"Thread {self.thread} | Start farming!")
-
                 elif start_time is not None and end_time is not None and timestamp >= end_time:
                     timestamp, balance = await self.claim()
                     logger.success(f"Thread {self.thread} | Claimed reward! Balance: {balance}")
@@ -76,10 +77,9 @@ class Blum:
                 else:
                     logger.info(f"Thread {self.thread} | Sleep {(end_time-timestamp)} seconds!")
                     await asyncio.sleep(end_time-timestamp)
-                    
                 await asyncio.sleep(60)
             except Exception as err:
-                logger.error(f"Thread {self.thread} | {err}")
+                logger.error(f"main | Thread {self.thread} | {err}")
 
 
     async def claim(self):
@@ -141,7 +141,7 @@ class Blum:
         resp_json = await resp.json()
         if resp_json['canClaim'] == True:
             claimed = await self.claim_referral()
-            logger.success(f"Thread {self.thread} | Claimed referral reward! Claimed: {claimed}")
+            logger.success(f"get_ref | Thread {self.thread} | Claimed referral reward! Claimed: {claimed}")
         
     
     async def claim_referral(self):
@@ -163,7 +163,7 @@ class Blum:
                     logger.success(f"Thread {self.thread} | Claimed TASK reward! Claimed: {answer['reward']}")
                     await asyncio.sleep(3)
         except Exception as err:
-            logger.error(f"Thread {self.thread} | {err}")
+            logger.error(f"do_task | Thread {self.thread} | {err}")
     
     async def is_token_valid(self):
         response = await self.session.get("https://gateway.blum.codes/v1/user/me",proxy=self.proxy)
@@ -198,7 +198,7 @@ class Blum:
                 auth_token = new_access_token  
                 ref_token = new_refresh_token  
                 self.session.headers['Authorization'] = "Bearer "+auth_token
-                logger.info(f"Thread {self.thread} | Token refreshed successfully.")
+                logger.info(f"refresh | Thread {self.thread} | Token refreshed successfully.")
             else:
                 raise Exception("New access token not found in the response")
         else:
@@ -214,7 +214,7 @@ class Blum:
         response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
         logger.info(f"Thread {self.thread} | Start DROP GAME!")
         if 'message' in await response.json():
-            logger.error(f"Thread {self.thread} | DROP GAME CAN'T START")
+            logger.error(f"game | Thread {self.thread} | DROP GAME CAN'T START")
             return
         text = (await response.json())['gameId']
         await asyncio.sleep(30)
