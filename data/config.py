@@ -15,10 +15,10 @@ USE_PROXY = True # True/False
 SESSIONS_PATH = "YOUR PATH TO SESSIONS"
 
 # скок поинтов с игры
-POINTS = [100, 140]
+POINTS = [100, 140] #[min, max]
 
 # тратить алмазы
-SPEND_DIAMONDS = True
+SPEND_DIAMONDS = True # True/False
 
 hello ='''              _                               __  _        
  _ __    ___ | |_  _   _   __ _  ___   ___   / _|| |_  ___ 
