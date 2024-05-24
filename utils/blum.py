@@ -10,8 +10,6 @@ import aiohttp
 import asyncio
 import random
 
-auth_token = ""
-ref_token=""
 
 class Blum:
     def __init__(self, thread: int, account: str, proxy : str):
@@ -32,7 +30,8 @@ class Blum:
             self.proxy = f"http://{proxy.split(':')[2]}:{proxy.split(':')[3]}@{proxy.split(':')[0]}:{proxy.split(':')[1]}"
         else:
             self.proxy = None
-            
+        self.auth_token = ""
+        self.ref_token=""
         headers = {'User-Agent': UserAgent(os='android').random}
         self.session = aiohttp.ClientSession(headers=headers, trust_env=True)
 
@@ -86,7 +85,6 @@ class Blum:
         try:
             resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/claim",proxy = self.proxy)
             resp_json = await resp.json()
-
             return int(resp_json.get("timestamp")/1000), resp_json.get("availableBalance")
         except:
             pass
@@ -102,23 +100,21 @@ class Blum:
             
             resp = await self.session.get("https://game-domain.blum.codes/api/v1/user/balance",proxy = self.proxy)
             resp_json = await resp.json()
-
             timestamp = resp_json.get("timestamp")
             if resp_json.get("farming"):
                 start_time = resp_json.get("farming").get("startTime")
                 end_time = resp_json.get("farming").get("endTime")
-                return int(datetime.now().timestamp()), int(start_time/1000), int(end_time/1000)
-            return int(datetime.now().timestamp()), None, None
+                return int(timestamp/1000), int(start_time/1000), int(end_time/1000)
+            return int(timestamp), None, None
         except:
             pass
 
     async def login(self):
-        global ref_token
         
         json_data = {"query": await self.get_tg_web_data()}
         resp = await self.session.post("https://gateway.blum.codes/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP", json=json_data,proxy = self.proxy)
         resp = await resp.json()
-        ref_token = resp.get("token").get("refresh")
+        self.ref_token = resp.get("token").get("refresh")
         self.session.headers['Authorization'] = "Bearer " + (resp).get("token").get("access")
 
     async def get_tg_web_data(self):
@@ -177,11 +173,10 @@ class Blum:
             return False
     
     async def refresh_token(self):
-        global auth_token
-        global ref_token
+
         
         refresh_payload = {
-            'refresh': ref_token  # The refresh token in the request body
+            'refresh': self.ref_token  # The refresh token in the request body
         }
         
         if "authorization" in self.session.headers:
@@ -195,9 +190,9 @@ class Blum:
             new_refresh_token = data.get("refresh")
 
             if new_access_token:
-                auth_token = new_access_token  
-                ref_token = new_refresh_token  
-                self.session.headers['Authorization'] = "Bearer "+auth_token
+                self.auth_token = new_access_token  
+                self.ref_token = new_refresh_token  
+                self.session.headers['Authorization'] = "Bearer "+self.auth_token
                 logger.info(f"refresh | Thread {self.thread} | Token refreshed successfully.")
             else:
                 raise Exception("New access token not found in the response")
