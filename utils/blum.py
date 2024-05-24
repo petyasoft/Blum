@@ -60,11 +60,10 @@ class Blum:
                 
                 if config.SPEND_DIAMONDS:
                     diamonds_balance = await self.get_diamonds_balance()
-                    while diamonds_balance != 0:
+                    for _ in range(diamonds_balance):
                         logger.info(f"Thread {self.thread} | Have {diamonds_balance} diamonds!")
                         await self.game()
                         await asyncio.sleep(random.randint(*config.SLEEP_GAME_TIME))
-                        diamonds_balance = await self.get_diamonds_balance()
                         
                 if start_time is None and end_time is None:
                     await self.start()
