@@ -9,11 +9,11 @@ async def create_sessions():
         session_name = input('Введите название сессии (для выхода нажмите Enter)\n')
         if not session_name:
             return
-        
-        with open('proxy.txt','r') as file:
-            proxy = [i.strip() for i in file.readlines()]
+    
         
         if USE_PROXY:
+            with open('proxy.txt','r') as file:
+                proxy = [i.strip() for i in file.readlines()]
             len_sessions = len(os.listdir(SESSIONS_PATH))
             
             if len(proxy)>len_sessions:
