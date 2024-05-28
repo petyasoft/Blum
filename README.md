@@ -1,4 +1,5 @@
 my tg channel https://t.me/petyasofts you can subscribe and follow updates<br></br>
+software runs on python3.11, another version may make errors<br></br>
 Get API_AD and API_HASH in https://my.telegram.org/auth?to=apps and add them to the file config.py.
 if you want to use Proxy, set USE_PROXY in config.py to True, otherwise False. If USE_PROXY=True open file proxy.txt and and using the example fill out the file. (Don't forget to clear extra lines)
 
