@@ -1,7 +1,6 @@
 from pyrogram.raw.functions.messages import RequestWebView
 from urllib.parse import unquote
 from utils.core import logger
-from datetime import datetime
 from fake_useragent import UserAgent
 from pyrogram import Client
 from data import config
@@ -10,13 +9,13 @@ import aiohttp
 import asyncio
 import random
 
-
 class Blum:
     def __init__(self, thread: int, account: str, proxy : str):
         self.thread = thread
+        self.name = account
         if proxy:
             proxy_client = {
-                "scheme": "socks5",
+                "scheme": config.PROXY_TYPE,
                 "hostname": proxy.split(':')[0],
                 "port": int(proxy.split(':')[1]),
                 "username": proxy.split(':')[2],
@@ -36,48 +35,53 @@ class Blum:
         self.session = aiohttp.ClientSession(headers=headers, trust_env=True)
 
     async def main(self):
-        await asyncio.sleep(random.uniform(config.ACC_DELAY[0], config.ACC_DELAY[1]))
+        await asyncio.sleep(random.randint(*config.ACC_DELAY))
         await self.login()
         
-        logger.info(f"Thread {self.thread} | Start!")
+        ip = await self.get_ip()
+        logger.info(f"main | Thread {self.thread} | {self.name} | Start! | IP : {ip}")
         while True:
             try:
                 valid = await self.is_token_valid()
                 if not valid:
-                    logger.warning(f"Thread {self.thread} | Token is invalid. Refreshing token...")
-                    await self.refresh_token()
-                await asyncio.sleep(5)
+                    logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
+                    await self.refresh()
+                await asyncio.sleep(*config.MINI_SLEEP)
                 
                 await self.claim_diamond()
-                await asyncio.sleep(5)
+                await asyncio.sleep(*config.MINI_SLEEP)
                 
-                timestamp, start_time, end_time = await self.balance()
+                try:
+                    timestamp, start_time, end_time = await self.balance()
+                except:
+                    continue
+                
                 await self.get_referral_info()
-                await asyncio.sleep(5)
+                await asyncio.sleep(*config.MINI_SLEEP)
                 
                 await self.do_tasks()
-                await asyncio.sleep(5)
+                await asyncio.sleep(*config.MINI_SLEEP)
                 
                 if config.SPEND_DIAMONDS:
                     diamonds_balance = await self.get_diamonds_balance()
-                    for count in range(diamonds_balance):
-                        logger.info(f"Thread {self.thread} | Have {diamonds_balance-count} diamonds!")
+                    logger.info(f"main | Thread {self.thread} | {self.name} | Have {diamonds_balance} diamonds!")
+                    for _ in range(diamonds_balance):
                         await self.game()
                         await asyncio.sleep(random.randint(*config.SLEEP_GAME_TIME))
                         
                 if start_time is None and end_time is None:
                     await self.start()
-                    logger.info(f"Thread {self.thread} | Start farming!")
+                    logger.info(f"main | Thread {self.thread} | {self.name} | Start farming!")
                 elif start_time is not None and end_time is not None and timestamp >= end_time:
                     timestamp, balance = await self.claim()
-                    logger.success(f"Thread {self.thread} | Claimed reward! Balance: {balance}")
+                    logger.success(f"main | Thread {self.thread} | {self.name} | Claimed reward! Balance: {balance}")
                 
                 else:
-                    logger.info(f"Thread {self.thread} | Sleep {(end_time-timestamp)} seconds!")
+                    logger.info(f"main | Thread {self.thread} | {self.name} | Sleep {(end_time-timestamp)} seconds!")
                     await asyncio.sleep(end_time-timestamp)
-                await asyncio.sleep(60)
+                await asyncio.sleep(random.randint(20,100))
             except Exception as err:
-                logger.error(f"main | Thread {self.thread} | {err}")
+                logger.error(f"main | Thread {self.thread} | {self.name} | {err}")
 
 
     async def claim(self):
@@ -132,12 +136,14 @@ class Blum:
         return unquote(string=unquote(string=auth_url.split('tgWebAppData=')[1].split('&tgWebAppVersion')[0]))
     
     async def get_referral_info(self):
-        resp = await self.session.get("https://gateway.blum.codes/v1/friends/balance",proxy = self.proxy)
-        resp_json = await resp.json()
-        if resp_json['canClaim'] == True:
-            claimed = await self.claim_referral()
-            logger.success(f"get_ref | Thread {self.thread} | Claimed referral reward! Claimed: {claimed}")
-        
+        try:
+            resp = await self.session.get("https://gateway.blum.codes/v1/friends/balance",proxy = self.proxy)
+            resp_json = await resp.json()
+            if resp_json['canClaim'] == True:
+                claimed = await self.claim_referral()
+                logger.success(f"get_ref | Thread {self.thread} | {self.name} | Claimed referral reward! Claimed: {claimed}")
+        except:
+            pass
     
     async def claim_referral(self):
         resp = await self.session.post("https://gateway.blum.codes/v1/friends/claim",proxy = self.proxy)
@@ -151,14 +157,14 @@ class Blum:
             for task in resp_json:
                 if task['status'] == "NOT_STARTED":
                     await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
-                    await asyncio.sleep(3)
+                    await asyncio.sleep(*config.MINI_SLEEP)
                 elif task['status'] == "DONE":
                     answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
                     answer = await answer.json()
-                    logger.success(f"Thread {self.thread} | Claimed TASK reward! Claimed: {answer['reward']}")
-                    await asyncio.sleep(3)
+                    logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
+                    await asyncio.sleep(config.MINI_SLEEP)
         except Exception as err:
-            logger.error(f"do_task | Thread {self.thread} | {err}")
+            logger.error(f"tasks | Thread {self.thread} | {self.name} | {err}")
     
     async def is_token_valid(self):
         response = await self.session.get("https://gateway.blum.codes/v1/user/me",proxy=self.proxy)
@@ -171,11 +177,11 @@ class Blum:
         else:
             return False
     
-    async def refresh_token(self):
+    async def refresh(self):
 
         
         refresh_payload = {
-            'refresh': self.ref_token  # The refresh token in the request body
+            'refresh': self.ref_token
         }
         
         if "authorization" in self.session.headers:
@@ -192,7 +198,7 @@ class Blum:
                 self.auth_token = new_access_token  
                 self.ref_token = new_refresh_token  
                 self.session.headers['Authorization'] = "Bearer "+self.auth_token
-                logger.info(f"refresh | Thread {self.thread} | Token refreshed successfully.")
+                logger.info(f"refresh | Thread {self.thread} | {self.name} | Token refreshed successfully.")
             else:
                 raise Exception("New access token not found in the response")
         else:
@@ -206,9 +212,9 @@ class Blum:
     async def game(self):
 
         response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
-        logger.info(f"Thread {self.thread} | Start DROP GAME!")
+        logger.info(f"Thread {self.thread} | {self.name} | Start DROP GAME!")
         if 'message' in await response.json():
-            logger.error(f"game | Thread {self.thread} | DROP GAME CAN'T START")
+            logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
             return
         text = (await response.json())['gameId']
         await asyncio.sleep(30)
@@ -222,13 +228,15 @@ class Blum:
         response = await self.session.post('https://game-domain.blum.codes/api/v1/game/claim', json=json_data, proxy=self.proxy)
         
         if await response.text() == "OK":
-            logger.success(f"Thread {self.thread} | Claimed DROP GAME ! Claimed: {count}")
+            logger.success(f"game | Thread {self.thread} | {self.name} | Claimed DROP GAME ! Claimed: {count}")
         else:
-            logger.error(f"Thread {self.thread} | {await response.text()}")
+            logger.error(f"game | Thread {self.thread} | {self.name} | {await response.text()}")
     
     async def claim_diamond(self):
-
         resp = await self.session.post("https://game-domain.blum.codes/api/v1/daily-reward?offset=-180", proxy=self.proxy)
         txt = await resp.text()
-        
         return True if txt == 'OK' else txt
+    
+    async def get_ip(self):
+        resp = await self.session.get("https://api.ipify.org", proxy=self.proxy)
+        return await resp.text()
