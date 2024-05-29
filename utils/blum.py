@@ -38,8 +38,9 @@ class Blum:
         await asyncio.sleep(random.randint(*config.ACC_DELAY))
         await self.login()
         
-        ip = await self.get_ip()
-        logger.info(f"main | Thread {self.thread} | {self.name} | Start! | IP : {ip}")
+        # ip = await self.get_ip()
+        # logger.info(f"main | Thread {self.thread} | {self.name} | Start! | IP : {ip}")
+        logger.info(f"main | Thread {self.thread} | {self.name} | Start!")
         while True:
             try:
                 valid = await self.is_token_valid()
