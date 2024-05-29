@@ -60,7 +60,7 @@ class Blum:
                 await self.get_referral_info()
                 await asyncio.sleep(*config.MINI_SLEEP)
                 
-                # await self.do_tasks() servsers blum have lags
+                await self.do_tasks() 
                 await asyncio.sleep(*config.MINI_SLEEP)
                 
                 if config.SPEND_DIAMONDS:
