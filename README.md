@@ -36,7 +36,10 @@
    192.168.1.2:2934:username:password session2
    192.168.1.3:3834:username:password session3
    192.168.5.1:2884:username:password session4
-
+   ```
+   And don't forget set proxy type in `config.py`
+   ```python
+   PROXY_TYPE = "socks5" # or http
    ```
 
 5. IMPORTANT Create a `sessions` folder
