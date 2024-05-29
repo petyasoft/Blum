@@ -163,7 +163,7 @@ class Blum:
                     answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
                     answer = await answer.json()
                     logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
-                    await asyncio.sleep(config.MINI_SLEEP)
+                    await asyncio.sleep(*config.MINI_SLEEP)
         except Exception as err:
             logger.error(f"tasks | Thread {self.thread} | {self.name} | {err}")
     
