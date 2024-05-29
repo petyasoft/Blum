@@ -83,7 +83,7 @@ class Blum:
     async def claim(self):
         try:
             resp = await self.session.post("https://game-domain.blum.codes/api/v1/farming/claim",proxy = self.proxy)
-            resp_json = await resp.json()
+            resp_json = await self.parse_json_response(resp)
             return int(resp_json.get("timestamp")/1000), resp_json.get("availableBalance")
         except:
             pass
@@ -98,7 +98,7 @@ class Blum:
         try:
             
             resp = await self.session.get("https://game-domain.blum.codes/api/v1/user/balance",proxy = self.proxy)
-            resp_json = await resp.json()
+            resp_json = await self.parse_json_response(resp)
             timestamp = resp_json.get("timestamp")
             if resp_json.get("farming"):
                 start_time = resp_json.get("farming").get("startTime")
@@ -112,7 +112,7 @@ class Blum:
         
         json_data = {"query": await self.get_tg_web_data()}
         resp = await self.session.post("https://gateway.blum.codes/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP", json=json_data,proxy = self.proxy)
-        resp = await resp.json()
+        resp = await self.parse_json_response(resp)
         self.ref_token = resp.get("token").get("refresh")
         self.session.headers['Authorization'] = "Bearer " + (resp).get("token").get("access")
 
@@ -133,7 +133,7 @@ class Blum:
     
     async def get_referral_info(self):
         resp = await self.session.get("https://gateway.blum.codes/v1/friends/balance",proxy = self.proxy)
-        resp_json = await resp.json()
+        resp_json = await self.parse_json_response(resp)
         if resp_json['canClaim'] == True:
             claimed = await self.claim_referral()
             logger.success(f"get_ref | Thread {self.thread} | Claimed referral reward! Claimed: {claimed}")
@@ -141,12 +141,12 @@ class Blum:
     
     async def claim_referral(self):
         resp = await self.session.post("https://gateway.blum.codes/v1/friends/claim",proxy = self.proxy)
-        resp_json = await resp.json()
+        resp_json = await self.parse_json_response(resp)
         return resp_json['claimBalance']
     
     async def do_tasks(self):
         resp = await self.session.get("https://game-domain.blum.codes/api/v1/tasks",proxy = self.proxy)
-        resp_json = await resp.json()
+        resp_json = await self.parse_json_response(resp)
         try:
             for task in resp_json:
                 if task['status'] == "NOT_STARTED":
@@ -232,3 +232,10 @@ class Blum:
         txt = await resp.text()
         
         return True if txt == 'OK' else txt
+
+    async def parse_json_response(self, response):
+        if response.headers.get('Content-Type') == 'application/json':
+            return await response.json()
+        else:
+            logger.error(f"Unexpected content type: {response.headers.get('Content-Type')}. Response: {await response.text()}")
+            response.raise_for_status()
