@@ -24,7 +24,7 @@ SPEND_DIAMONDS = True # True/False
 SLEEP_GAME_TIME = [100,200] #[min,max]
 
 # мини задержки
-MINI_SLEEP = [3,7]
+MINI_SLEEP = [3,7] #[min,max]
 
 hello ='''              _                               __  _        
  _ __    ___ | |_  _   _   __ _  ___   ___   / _|| |_  ___ 
