@@ -20,19 +20,44 @@ class Accounts:
 
     async def check_valid_sessions(self, sessions: list):
         logger.info(f"Проверяю сессии на валидность!")
-
         valid_sessions = []
-        for session in sessions:
-            try:
-                client = Client(name=session, api_id=self.api_id, api_hash=self.api_hash, workdir=self.workdir)
+        if config.USE_PROXY:
+            proxy_dict = {}
+            with open('proxy.txt','r') as file:
+                proxy_list = [i.strip().split() for i in file.readlines()]
+                for prox,name in proxy_list:
+                    proxy_dict[name] = prox
+            for session in sessions:
+                try:
+                    proxy = proxy_dict[session]
+                    proxy_client = {
+                        "scheme": config.PROXY_TYPE,
+                        "hostname": proxy.split(':')[0],
+                        "port": int(proxy.split(':')[1]),
+                        "username": proxy.split(':')[2],
+                        "password": proxy.split(':')[3],
+                    }
+                    client = Client(name=session, api_id=self.api_id, api_hash=self.api_hash, workdir=self.workdir,proxy=proxy_client)
 
-                if await client.connect():
-                    valid_sessions.append(session)
+                    if await client.connect():
+                        valid_sessions.append(session)
 
-                await client.disconnect()
-            except: pass
+                    await client.disconnect()
+                except:
+                    pass
+                
+        else:
+            for session in sessions:
+                try:
+                    client = Client(name=session, api_id=self.api_id, api_hash=self.api_hash, workdir=self.workdir)
 
-        logger.success(f"Валидных сессий: {len(valid_sessions)}; Невалидных: {len(sessions)-len(valid_sessions)}")
+                    if await client.connect():
+                        valid_sessions.append(session)
+
+                    await client.disconnect()
+                except:
+                    pass
+            logger.success(f"Валидных сессий: {len(valid_sessions)}; Невалидных: {len(sessions)-len(valid_sessions)}")
         return valid_sessions
 
     async def get_accounts(self):
