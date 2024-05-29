@@ -1,4 +1,1 @@
-EXAMPLE
-ip:port:login:password
 
-Don't forget to clear this file!!!!!!!
