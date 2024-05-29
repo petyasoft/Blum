@@ -1,13 +1,64 @@
-my tg channel https://t.me/petyasofts you can subscribe and follow updates<br></br>
-software runs on python3.11, another version may make errors<br></br>
-Get API_AD and API_HASH in https://my.telegram.org/auth?to=apps and add them to the file config.py.
-if you want to use Proxy, set USE_PROXY in config.py to True, otherwise False. If USE_PROXY=True open file proxy.txt and and using the example fill out the file. (Don't forget to clear extra lines)
 
-<br>IMPORTANT</br>
-With one api_ad and api_hash the software will work with all accounts, no need to change them for each account
-<br></br>
-<br>DONT FORGET</br>
-Create sessions folder
+# Software for Blum telegram Bot
 
-IF YOU ARE USING A PROXY, REMEMBER TO SPECIFY SESSIONS_PATH in config.py
-if you use windows and you session_path is invalid, try change \ to / in your path (example C:/user/......./sessions)
+## Requirements
+- Python 3.11 (you can install it [here](https://www.python.org/downloads/release/python-3110/))
+- Telegram API_ID and API_HASH (you can get them [here](https://my.telegram.org/auth?to=apps))
+
+
+
+1. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Get your API_ID and API_HASH:
+   - Go to [my.telegram.org](https://my.telegram.org/auth?to=apps)
+   - Sign in with your Telegram account
+   - Create a new application to get your API_ID and API_HASH
+
+3. Configure the application:
+   - Open `config.py` and add your `API_ID` and `API_HASH`:
+     ```python
+     API_ID = your_api_id
+     API_HASH = 'your_api_hash'
+     ```
+
+   - If you want to use a proxy, set `USE_PROXY` in `config.py` to `True`, otherwise set it to `False`:
+     ```python
+     USE_PROXY = True  # or False
+     ```
+
+   - If `USE_PROXY` is `True`, open `proxy.txt` and fill it out using the example provided. Ensure there are no extra lines in the file.
+   Proxy format : ip:port:login:password session_name, session name is which use this proxy
+   ```txt
+   192.168.1.1:1234:username:password session1
+   192.168.1.2:2934:username:password session2
+   192.168.1.3:3834:username:password session3
+   192.168.5.1:2884:username:password session4
+
+   ```
+
+5. IMPORTANT Create a `sessions` folder
+
+
+## Usage
+
+1. Run the bot:
+   ```bash
+   python main.py
+   ```
+
+2. The software will work with all accounts using the single `API_ID` and `API_HASH`. No need to change them for each account.
+
+## Important Notes
+
+- **Python Version:** The software runs on Python 3.11. Using a different version may cause errors.
+
+
+
+---
+
+Thank you for using Blum Telegram Bot! Don't forget to follow our [Telegram channel](https://t.me/petyasofts) for updates.
+
+
