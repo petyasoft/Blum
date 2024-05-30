@@ -83,6 +83,7 @@ class Blum:
                 await asyncio.sleep(random.randint(20,100))
             except Exception as err:
                 logger.error(f"main | Thread {self.thread} | {self.name} | {err}")
+                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
 
 
     async def claim(self):
