@@ -153,9 +153,9 @@ class Blum:
         return resp_json['claimBalance']
     
     async def do_tasks(self):
-        resp = await self.session.get("https://game-domain.blum.codes/api/v1/tasks",proxy = self.proxy)
-        resp_json = await resp.json()
         try:
+            resp = await self.session.get("https://game-domain.blum.codes/api/v1/tasks",proxy = self.proxy)
+            resp_json = await resp.json()
             for task in resp_json:
                 if task['status'] == "NOT_STARTED":
                     await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
