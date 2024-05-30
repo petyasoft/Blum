@@ -47,10 +47,10 @@ class Blum:
                 if not valid:
                     logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
                     await self.refresh()
-                await asyncio.sleep(*config.MINI_SLEEP)
+                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 
                 await self.claim_diamond()
-                await asyncio.sleep(*config.MINI_SLEEP)
+                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 
                 try:
                     timestamp, start_time, end_time = await self.balance()
@@ -58,10 +58,10 @@ class Blum:
                     continue
                 
                 await self.get_referral_info()
-                await asyncio.sleep(*config.MINI_SLEEP)
+                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 
-                await self.do_tasks() 
-                await asyncio.sleep(*config.MINI_SLEEP)
+                await self.do_tasks()
+                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 
                 if config.SPEND_DIAMONDS:
                     diamonds_balance = await self.get_diamonds_balance()
@@ -158,12 +158,12 @@ class Blum:
             for task in resp_json:
                 if task['status'] == "NOT_STARTED":
                     await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
-                    await asyncio.sleep(*config.MINI_SLEEP)
+                    await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 elif task['status'] == "DONE":
                     answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
                     answer = await answer.json()
                     logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
-                    await asyncio.sleep(*config.MINI_SLEEP)
+                    await asyncio.sleep(random.randint(*config.MINI_SLEEP))
         except Exception as err:
             logger.error(f"tasks | Thread {self.thread} | {self.name} | {err}")
     
@@ -213,7 +213,7 @@ class Blum:
     async def game(self):
 
         response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
-        logger.info(f"Thread {self.thread} | {self.name} | Start DROP GAME!")
+        logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
         if 'message' in await response.json():
             logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
             return
