@@ -29,20 +29,29 @@ class Accounts:
                     proxy_dict[name] = prox
             for session in sessions:
                 try:
-                    proxy = proxy_dict[session]
-                    proxy_client = {
-                        "scheme": config.PROXY_TYPE,
-                        "hostname": proxy.split(':')[0],
-                        "port": int(proxy.split(':')[1]),
-                        "username": proxy.split(':')[2],
-                        "password": proxy.split(':')[3],
-                    }
-                    client = Client(name=session, api_id=self.api_id, api_hash=self.api_hash, workdir=self.workdir,proxy=proxy_client)
+                    if session in proxy_dict:
+                        proxy = proxy_dict[session]
+                        proxy_client = {
+                            "scheme": config.PROXY_TYPE,
+                            "hostname": proxy.split(':')[0],
+                            "port": int(proxy.split(':')[1]),
+                            "username": proxy.split(':')[2],
+                            "password": proxy.split(':')[3],
+                        }
+                        client = Client(name=session, api_id=self.api_id, api_hash=self.api_hash, workdir=self.workdir,proxy=proxy_client)
 
-                    if await client.connect():
-                        valid_sessions.append(session)
+                        if await client.connect():
+                            valid_sessions.append(session)
 
-                    await client.disconnect()
+                        await client.disconnect()
+                    else:
+                        client = Client(name=session, api_id=self.api_id, api_hash=self.api_hash, workdir=self.workdir)
+
+                        if await client.connect():
+                            valid_sessions.append(session)
+
+                        await client.disconnect()
+                            
                 except:
                     pass
                 
