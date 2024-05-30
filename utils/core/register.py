@@ -35,7 +35,7 @@ async def create_sessions():
                 async with session:
                     user_data = await session.get_me()
 
-                logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} IP {proxy.split(":")[0]}')
+                logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} PROXY {proxy.split(":")[0]}')
             else:
                 session = pyrogram.Client(
                     api_id=config.API_ID,
@@ -47,7 +47,7 @@ async def create_sessions():
                 async with session:
                     user_data = await session.get_me()
 
-                logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} IP : NONE')
+                logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} PROXY : NONE')
         else:
             session = pyrogram.Client(
                 api_id=config.API_ID,
@@ -59,4 +59,4 @@ async def create_sessions():
             async with session:
                 user_data = await session.get_me()
 
-            logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} IP : NONE')
+            logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} PROXY : NONE')
