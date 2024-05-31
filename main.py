@@ -3,12 +3,15 @@ from utils.telegram import Accounts
 from utils.blum import Blum
 from data.config import hello,USE_PROXY
 import asyncio
-
+import os
 
 async def main():
     print(hello)
     action = int(input('Выберите действие:\n1. Начать сбор монет\n2. Создать сессию\n>'))
-
+    
+    if not os.path.exists('sessions'):
+        os.mkdir('sessions')
+    
     if action == 2:
         await create_sessions()
 
@@ -16,7 +19,7 @@ async def main():
         accounts = await Accounts().get_accounts()
         proxy_dict = {}
         with open('proxy.txt','r') as file:
-            proxy = [i.strip().split() for i in file.readlines() if len(i.strip().split())==2]
+            proxy = [i.strip().split() for i in file.readlines() if len(i.strip().split()) == 2]
             for prox,name in proxy:
                 proxy_dict[name] = prox
                 
