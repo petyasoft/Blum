@@ -42,6 +42,8 @@ class Accounts:
 
                         if await client.connect():
                             valid_sessions.append(session)
+                        else:
+                            logger.error(f"{session}.session is invalid")
 
                         await client.disconnect()
                     else:
@@ -49,11 +51,12 @@ class Accounts:
 
                         if await client.connect():
                             valid_sessions.append(session)
-
-                        await client.disconnect()
-                            
+                        else:
+                            logger.error(f"{session}.session is invalid")
+                        await client.disconnect()       
                 except:
-                    pass
+                    logger.error(f"{session}.session is invalid")
+            logger.success(f"Валидных сессий: {len(valid_sessions)}; Невалидных: {len(sessions)-len(valid_sessions)}")
                 
         else:
             for session in sessions:
@@ -62,10 +65,11 @@ class Accounts:
 
                     if await client.connect():
                         valid_sessions.append(session)
-
+                    else:
+                        logger.error(f"{session}.session is invalid")
                     await client.disconnect()
                 except:
-                    pass
+                    logger.error(f"{session}.session is invalid")
             logger.success(f"Валидных сессий: {len(valid_sessions)}; Невалидных: {len(sessions)-len(valid_sessions)}")
         return valid_sessions
 
