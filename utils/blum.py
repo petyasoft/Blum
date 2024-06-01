@@ -78,8 +78,9 @@ class Blum:
                     logger.success(f"main | Thread {self.thread} | {self.name} | Claimed reward! Balance: {balance}")
                 
                 else:
-                    logger.info(f"main | Thread {self.thread} | {self.name} | Sleep {(end_time-timestamp)} seconds!")
-                    await asyncio.sleep(end_time-timestamp)
+                    add_sleep = random.randint(*config.SLEEP_8HOURS)
+                    logger.info(f"main | Thread {self.thread} | {self.name} | Sleep {(end_time-timestamp+add_sleep)} seconds!")
+                    await asyncio.sleep(end_time-timestamp+add_sleep)
                 await asyncio.sleep(random.randint(20,100))
             except Exception as err:
                 logger.error(f"main | Thread {self.thread} | {self.name} | {err}")
