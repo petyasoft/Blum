@@ -30,7 +30,7 @@
      ```
 
    - If `USE_PROXY` is `True`, open `proxy.txt` and fill it out using the example provided. Ensure there are no extra lines in the file.
-   Proxy format : ip:port:login:password session_name, session name is which use this proxy
+   Proxy format : ip:port:login:password session_name, session name is which use this proxy (WITHOUT .session, only session name)
    ```txt
    192.168.1.1:1234:username:password session1
    192.168.1.2:2934:username:password session2
