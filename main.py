@@ -17,14 +17,14 @@ async def main():
 
     if action == 1:
         accounts = await Accounts().get_accounts()
-        proxy_dict = {}
-        with open('proxy.txt','r') as file:
-            proxy = [i.strip().split() for i in file.readlines() if len(i.strip().split()) == 2]
-            for prox,name in proxy:
-                proxy_dict[name] = prox
                 
         tasks = []
         if USE_PROXY:
+            proxy_dict = {}
+            with open('proxy.txt','r') as file:
+                proxy = [i.strip().split() for i in file.readlines() if len(i.strip().split()) == 2]
+                for prox,name in proxy:
+                    proxy_dict[name] = prox
             for thread, account in enumerate(accounts):
                 if account in proxy_dict:
                     tasks.append(asyncio.create_task(Blum(account=account, thread=thread, proxy=proxy_dict[account]).main()))
