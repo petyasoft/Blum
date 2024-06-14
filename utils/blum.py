@@ -173,7 +173,7 @@ class Blum:
                     if task['status'] == "NOT_STARTED":
                         await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
                         await asyncio.sleep(random.randint(*config.MINI_SLEEP))
-                    elif task['status'] == "DONE":
+                    elif task['status'] == "READY_FOR_CLAIM":
                         answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
                         answer = await answer.json()
                         logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
