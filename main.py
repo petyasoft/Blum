@@ -21,7 +21,7 @@ async def main():
         tasks = []
         if USE_PROXY:
             proxy_dict = {}
-            with open('proxy.txt','r') as file:
+            with open('proxy.txt','r',encoding='utf-8') as file:
                 proxy = [i.strip().split() for i in file.readlines() if len(i.strip().split()) == 2]
                 for prox,name in proxy:
                     proxy_dict[name] = prox
