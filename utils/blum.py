@@ -85,11 +85,14 @@ class Blum:
                 await asyncio.sleep(random.randint(*config.MINI_SLEEP))
             except Exception as err:
                 logger.error(f"main | Thread {self.thread} | {self.name} | {err}")
-                valid = await self.is_token_valid()
-                if not valid:
-                    logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
-                    await self.refresh()
-                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
+                if err != "Server disconnected":
+                    valid = await self.is_token_valid()
+                    if not valid:
+                        logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
+                        await self.refresh()
+                    await asyncio.sleep(random.randint(*config.MINI_SLEEP))
+                else:
+                    await asyncio.sleep(5*random.randint(*config.MINI_SLEEP))
 
 
     async def claim(self):
@@ -133,6 +136,9 @@ class Blum:
             return True
         except Exception as err:
             logger.error(f"login | Thread {self.thread} | {self.name} | {err}")
+            if err == "Server disconnected":
+                return True
+            return False
 
 
     async def get_tg_web_data(self):
