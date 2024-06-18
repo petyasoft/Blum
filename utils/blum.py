@@ -256,9 +256,11 @@ class Blum:
             logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
             return
         text = (await response.json())['gameId']
-        await asyncio.sleep(30)
         count = random.randint(*config.POINTS)
-        
+        if count >=160:
+            await asyncio.sleep(30+(count-160)//7*4)
+        else:
+            await asyncio.sleep(30)
         json_data = {
             'gameId': text,
             'points': count,
