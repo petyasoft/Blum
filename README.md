@@ -45,6 +45,7 @@
 5. IMPORTANT Create a `sessions` folder
 
 
+
 ## Usage
 
 1. Run the bot:
@@ -57,7 +58,7 @@
 ## Important Notes
 
 - **Python Version:** The software runs on Python 3.11. Using a different version may cause errors.
-
+- DONT USE MAIN ACCOUNT BECAUSE THERE IS ALWAYS A CHANCE TO GET BANNED IN TELEGRAM
 
 
 ---
