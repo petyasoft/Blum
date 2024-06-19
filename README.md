@@ -71,6 +71,15 @@
    docker stop blum-telegram-bot
    ```
 
+4. If you don't want use Docker you can after running bot via
+
+   ```bash
+   python main.py -a 1
+   ```
+
+   It will automatically choose first option in the menu after start
+
+
 ## Important Notes
 
 - **Python Version:** The software runs on Python 3.11. Using a different version may cause errors.
