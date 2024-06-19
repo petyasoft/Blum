@@ -20,6 +20,9 @@ POINTS = [100, 140] #[min, max]
 # тратить алмазы
 SPEND_DIAMONDS = True # True/False
 
+# минимальное количество алмазов (если 0, то тратит всё)
+MIN_DIAMONDS = 0
+
 # сон между играми
 SLEEP_GAME_TIME = [100,200] #[min,max]
 
