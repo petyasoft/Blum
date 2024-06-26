@@ -1,13 +1,13 @@
 from utils.core import create_sessions
 from utils.telegram import Accounts
 from utils.blum import Blum
-from data.config import hello,USE_PROXY,USE_TG_BOT
+from data.config import hello,USE_PROXY,USE_TG_BOT,BOT_TOKEN
 import asyncio
 import os
 from aiogram import Bot, Dispatcher, executor, types
 
 if USE_TG_BOT:
-    bot = Bot(token='6996780237:')
+    bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher(bot)
     @dp.message_handler(commands=['start'])
     async def start(message: types.Message):
