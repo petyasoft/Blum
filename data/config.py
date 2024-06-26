@@ -2,6 +2,10 @@
 API_ID = 11111111
 API_HASH = 'Your api hash'
 
+USE_TG_BOT = True # True if you want use tg, else False
+BOT_TOKEN = '283993:kdmioieiweikiokeocki4okew' # API TOKEN get in @BotFather
+CHAT_ID = '22803822' # Your telegram id
+
 # задержка между подключениями к аккаунтам
 ACC_DELAY = [5, 15]
 
