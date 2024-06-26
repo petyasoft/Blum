@@ -7,7 +7,7 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 
 if USE_TG_BOT:
-    bot = Bot(token='6996780237:AAFJyzMa8z6WStMnNAkbwPj9dl9taskPogk')
+    bot = Bot(token='6996780237:')
     dp = Dispatcher(bot)
     @dp.message_handler(commands=['start'])
     async def start(message: types.Message):
