@@ -10,7 +10,7 @@ import asyncio
 import random
 
 class Blum:
-    def __init__(self, thread: int, account: str, proxy : str):
+    def __init__(self, thread: int, account: str, proxy : str, add_info : list = []):
         self.thread = thread
         self.name = account
         if proxy:
@@ -21,14 +21,21 @@ class Blum:
                 "username": proxy.split(':')[2],
                 "password": proxy.split(':')[3],
             }
-            self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR, proxy=proxy_client)
+            if add_info!=[]:
+                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR, proxy=proxy_client,device_model=add_info[0],system_version=add_info[1],app_version=add_info[2],lang_code=add_info[3])
+            else:
+                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR, proxy=proxy_client)
         else:
-            self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR)
-        
+            if add_info!=[]:
+                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR,device_model=add_info[0],system_version=add_info[1], app_version=add_info[2],lang_code=add_info[3])
+            else:
+                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR)
+                
         if proxy:
             self.proxy = f"{config.PROXY_TYPE}://{proxy.split(':')[2]}:{proxy.split(':')[3]}@{proxy.split(':')[0]}:{proxy.split(':')[1]}"
         else:
             self.proxy = None
+            
         self.auth_token = ""
         self.ref_token=""
         headers = {'User-Agent': UserAgent(os='android').random}
@@ -76,7 +83,6 @@ class Blum:
                 elif start_time is not None and end_time is not None and timestamp >= end_time:
                     timestamp, balance = await self.claim()
                     logger.success(f"main | Thread {self.thread} | {self.name} | Claimed reward! Balance: {balance}")
-                
                 else:
                     add_sleep = random.randint(*config.SLEEP_8HOURS)
                     logger.info(f"main | Thread {self.thread} | {self.name} | Sleep {(end_time-timestamp+add_sleep)} seconds!")
