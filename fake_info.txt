@@ -1,0 +1,500 @@
+iPhone SE;15.2;8.6.0;ru
+Samsung Galaxy S9;11;8.8.4;ru
+Google Pixel 2;9;8.7.3;ru
+iPhone 12;15.5;8.7.3;ru
+iPhone 13;14.4;8.8.4;en
+OnePlus 8;9;8.8.4;ru
+iPhone 12 Pro;14.4;8.4.2;en
+OnePlus 8;9;8.5.1;en
+OnePlus 7T;11;8.8.4;en
+Google Pixel 4;11;8.8.4;ru
+Huawei P20;11;8.6.0;ru
+iPhone 13 Pro;13.7;8.6.0;en
+iPhone 15 Pro;16.0;8.7.3;en
+Google Pixel 4;12;8.7.3;ru
+iPhone 13;15.2;8.6.0;en
+iPhone 15;15.5;8.6.0;en
+OnePlus Nord;13;8.5.1;en
+iPhone 15 Pro;15.2;8.6.0;en
+OnePlus Nord;10;8.4.2;en
+Samsung Galaxy Note 20;9;8.8.4;ru
+iPhone SE;14.4;8.8.4;ru
+Huawei P20;11;8.4.2;ru
+Huawei P30;9;8.6.0;en
+Google Pixel 5;10;8.7.3;ru
+Samsung Galaxy Note 20;10;8.8.4;ru
+iPhone 12 Pro;13.7;8.6.0;ru
+Xiaomi Redmi Note 9;10;8.5.1;en
+Samsung Galaxy S20;9;8.6.0;en
+iPhone 15 Pro;13.7;8.6.0;en
+Huawei Mate 20;9;8.5.1;en
+iPhone 14 Pro;13.7;8.5.1;ru
+Samsung Galaxy S21;13;8.4.2;en
+Xiaomi Mi 9;10;8.8.4;en
+iPhone X;13.7;8.8.4;en
+Huawei P30;12;8.6.0;en
+iPhone 14 Pro;15.2;8.4.2;ru
+iPhone 13;15.2;8.8.4;ru
+OnePlus 8;13;8.8.4;en
+iPhone 12 Pro;14.4;8.8.4;en
+iPhone 13;15.5;8.8.4;ru
+iPhone 14 Pro;13.7;8.7.3;en
+iPhone 14;15.2;8.7.3;en
+Google Pixel 6;12;8.5.1;en
+Xiaomi Mi 11;13;8.8.4;ru
+iPhone 12;14.4;8.7.3;ru
+Samsung Galaxy S20;9;8.5.1;ru
+iPhone 11;14.4;8.7.3;en
+iPhone 12;16.0;8.5.1;en
+iPhone 13;14.4;8.7.3;ru
+iPhone 13;13.7;8.8.4;en
+iPhone 12 Pro;15.5;8.8.4;en
+iPhone 14;13.7;8.6.0;ru
+Google Pixel 5;9;8.8.4;en
+Samsung Galaxy A51;10;8.7.3;ru
+OnePlus 9;13;8.7.3;en
+Samsung Galaxy S20;10;8.6.0;en
+Samsung Galaxy S21;9;8.5.1;en
+Samsung Galaxy S9;10;8.4.2;ru
+Google Pixel 5;13;8.5.1;ru
+Samsung Galaxy Note 20;12;8.7.3;en
+Xiaomi Mi 10;12;8.6.0;en
+iPhone 15 Pro;13.7;8.6.0;ru
+Huawei P30;11;8.8.4;ru
+Samsung Galaxy S9;12;8.4.2;en
+OnePlus Nord;12;8.4.2;ru
+OnePlus 9;9;8.7.3;en
+OnePlus 7;9;8.7.3;ru
+Huawei Mate 20;11;8.5.1;en
+Huawei Mate 30;11;8.7.3;en
+OnePlus 7;9;8.7.3;ru
+Huawei P20;11;8.8.4;ru
+iPhone 15 Pro;13.7;8.7.3;en
+OnePlus 7;11;8.4.2;ru
+Samsung Galaxy S20;13;8.5.1;ru
+iPhone 14 Pro Max;15.2;8.6.0;ru
+Google Pixel 6;13;8.8.4;ru
+iPhone 14 Pro;15.5;8.5.1;en
+Xiaomi Mi 11;13;8.7.3;en
+OnePlus 6T;12;8.4.2;ru
+Xiaomi Redmi Note 10;13;8.6.0;en
+Samsung Galaxy Note 20;12;8.5.1;ru
+Google Pixel 3;12;8.4.2;en
+iPhone SE;13.7;8.5.1;ru
+Huawei Mate 20;12;8.5.1;ru
+iPhone 12 Pro;15.5;8.8.4;ru
+iPhone X;15.2;8.5.1;ru
+Google Pixel 5;10;8.8.4;ru
+Huawei Nova 5T;10;8.5.1;en
+Huawei Nova 5T;11;8.5.1;ru
+Huawei P20;12;8.7.3;en
+Poco F3;11;8.7.3;ru
+Samsung Galaxy A51;12;8.4.2;en
+iPhone 14;14.4;8.8.4;en
+Xiaomi Mi 11;13;8.5.1;ru
+iPhone 15 Pro;14.4;8.4.2;ru
+Samsung Galaxy S10;13;8.7.3;ru
+Xiaomi Redmi Note 10;12;8.4.2;ru
+Google Pixel 2;9;8.8.4;ru
+Google Pixel 6;13;8.7.3;en
+iPhone 14 Pro Max;15.5;8.5.1;en
+Google Pixel 4;10;8.4.2;ru
+Google Pixel 4;11;8.4.2;ru
+Xiaomi Redmi Note 9;10;8.8.4;en
+Samsung Galaxy A51;13;8.7.3;en
+iPhone 14;15.2;8.5.1;en
+iPhone 15 Pro Max;14.4;8.7.3;en
+Google Pixel 3;10;8.6.0;en
+OnePlus Nord;11;8.5.1;en
+Samsung Galaxy S20;11;8.4.2;ru
+iPhone 12;14.4;8.7.3;en
+Google Pixel 6;12;8.5.1;ru
+iPhone 15 Pro Max;15.5;8.7.3;en
+Samsung Galaxy Note 20;10;8.4.2;en
+iPhone SE;15.5;8.7.3;ru
+iPhone 13;14.4;8.5.1;ru
+Samsung Galaxy Note 20;11;8.6.0;ru
+iPhone SE;15.5;8.6.0;en
+iPhone 14 Pro;13.7;8.6.0;en
+Google Pixel 2;9;8.5.1;ru
+Xiaomi Redmi Note 10;9;8.7.3;ru
+Google Pixel 6;12;8.6.0;ru
+iPhone 13 Pro;13.7;8.5.1;ru
+Xiaomi Mi 11;12;8.7.3;en
+Huawei Mate 20;11;8.7.3;ru
+Huawei Nova 5T;10;8.5.1;en
+Xiaomi Mi 11;11;8.8.4;en
+Xiaomi Mi 9;11;8.6.0;ru
+iPhone 14 Pro Max;15.5;8.8.4;ru
+iPhone 14;14.4;8.5.1;en
+iPhone 14 Pro;16.0;8.4.2;en
+OnePlus Nord;13;8.7.3;ru
+iPhone X;15.2;8.6.0;ru
+iPhone 15 Pro;13.7;8.4.2;ru
+iPhone 15 Pro;14.4;8.7.3;ru
+Huawei P40;11;8.5.1;ru
+Huawei P40;12;8.7.3;ru
+Huawei P30;12;8.6.0;en
+iPhone 12;15.2;8.5.1;en
+Xiaomi Redmi Note 9;9;8.6.0;ru
+Xiaomi Redmi Note 9;13;8.4.2;ru
+Samsung Galaxy S10;11;8.5.1;en
+OnePlus Nord;12;8.7.3;ru
+Google Pixel 6;9;8.7.3;ru
+iPhone 13;15.5;8.8.4;en
+OnePlus 7T;11;8.8.4;en
+Huawei Mate 30;11;8.6.0;ru
+Xiaomi Mi 9;13;8.5.1;ru
+Samsung Galaxy Note 20;12;8.6.0;en
+Huawei Mate 20;9;8.7.3;ru
+Samsung Galaxy S21;9;8.4.2;ru
+Samsung Galaxy S10;13;8.6.0;ru
+Huawei P40;12;8.5.1;en
+Xiaomi Redmi Note 10;9;8.5.1;ru
+iPhone 11;13.7;8.6.0;en
+Huawei P30;11;8.7.3;en
+iPhone 14;14.4;8.8.4;en
+iPhone 12;16.0;8.7.3;en
+iPhone 12 Pro;16.0;8.6.0;en
+iPhone 15;14.4;8.6.0;ru
+iPhone 15;15.2;8.5.1;ru
+Xiaomi Mi 11;13;8.7.3;en
+Google Pixel 3;13;8.8.4;en
+Samsung Galaxy S9;11;8.7.3;ru
+iPhone 14;13.7;8.5.1;en
+Huawei P20;9;8.7.3;ru
+Samsung Galaxy S20;13;8.5.1;ru
+iPhone 13;16.0;8.4.2;ru
+iPhone 15 Pro;13.7;8.8.4;ru
+iPhone 13;16.0;8.5.1;en
+Xiaomi Redmi Note 9;11;8.5.1;ru
+Huawei Mate 30;10;8.5.1;ru
+Google Pixel 4;10;8.4.2;ru
+iPhone 11;14.4;8.6.0;en
+Huawei P20;10;8.5.1;en
+OnePlus 9;10;8.8.4;ru
+iPhone 13;13.7;8.4.2;en
+Google Pixel 4;12;8.6.0;ru
+Google Pixel 2;11;8.8.4;ru
+Huawei Nova 5T;12;8.6.0;ru
+OnePlus 7;11;8.8.4;en
+Google Pixel 2;11;8.8.4;en
+Samsung Galaxy Note 20;9;8.5.1;en
+Xiaomi Mi 9;9;8.7.3;ru
+OnePlus 6T;10;8.8.4;en
+iPhone 12 Pro;16.0;8.5.1;en
+OnePlus Nord;13;8.6.0;en
+Samsung Galaxy S21;13;8.6.0;en
+Xiaomi Mi 9;10;8.4.2;ru
+iPhone 12 Pro;14.4;8.6.0;ru
+iPhone 11;13.7;8.5.1;ru
+Samsung Galaxy Note 20;10;8.4.2;ru
+Google Pixel 3;12;8.5.1;ru
+Xiaomi Mi 10;12;8.4.2;en
+Google Pixel 3;13;8.7.3;en
+iPhone 14 Pro;15.2;8.4.2;ru
+iPhone 14;16.0;8.5.1;en
+Samsung Galaxy S10;12;8.7.3;en
+iPhone 13 Pro;16.0;8.7.3;en
+Samsung Galaxy S20;9;8.8.4;en
+OnePlus 9;10;8.8.4;en
+iPhone 14;13.7;8.8.4;en
+Samsung Galaxy Note 20;9;8.4.2;ru
+Huawei Nova 5T;13;8.5.1;en
+iPhone 15 Pro;15.5;8.7.3;ru
+OnePlus 9;13;8.6.0;ru
+iPhone 13 Pro;15.5;8.5.1;en
+Samsung Galaxy S9;12;8.5.1;ru
+Samsung Galaxy S10;12;8.8.4;ru
+iPhone 12;14.4;8.5.1;ru
+Samsung Galaxy S10;10;8.5.1;ru
+Samsung Galaxy S10;9;8.8.4;ru
+Xiaomi Redmi Note 9;9;8.6.0;ru
+iPhone 14 Pro Max;16.0;8.8.4;en
+Xiaomi Mi 11;10;8.7.3;ru
+Xiaomi Mi 10;13;8.7.3;ru
+Huawei P30;13;8.5.1;ru
+iPhone 13 Pro;14.4;8.5.1;ru
+Xiaomi Mi 10;11;8.7.3;en
+Xiaomi Mi 11;12;8.7.3;en
+iPhone SE;15.2;8.6.0;en
+iPhone 14 Pro Max;15.2;8.8.4;en
+iPhone 12;15.2;8.5.1;en
+Huawei P20;10;8.6.0;ru
+iPhone 13 Pro;13.7;8.8.4;ru
+iPhone 14 Pro;16.0;8.7.3;ru
+OnePlus 7;12;8.8.4;ru
+iPhone 12 Pro;14.4;8.8.4;ru
+iPhone 14 Pro Max;15.2;8.4.2;ru
+Huawei Mate 20;12;8.7.3;ru
+iPhone 15;13.7;8.7.3;en
+Huawei Mate 20;10;8.8.4;ru
+Google Pixel 4;11;8.4.2;ru
+Samsung Galaxy A51;11;8.4.2;en
+Google Pixel 4;13;8.8.4;en
+OnePlus Nord;12;8.5.1;en
+OnePlus 7T;9;8.6.0;ru
+Google Pixel 5;10;8.5.1;en
+OnePlus Nord;9;8.7.3;ru
+iPhone 13 Pro;15.5;8.8.4;en
+Google Pixel 4;12;8.5.1;en
+iPhone 11;15.2;8.8.4;ru
+OnePlus 7T;12;8.7.3;ru
+iPhone X;13.7;8.8.4;en
+Huawei P30;12;8.8.4;en
+Huawei P20;13;8.6.0;en
+Samsung Galaxy A51;12;8.5.1;ru
+OnePlus 7;10;8.8.4;en
+Samsung Galaxy S10;9;8.8.4;ru
+iPhone 12 Pro;14.4;8.8.4;en
+Samsung Galaxy S21;9;8.6.0;ru
+OnePlus 8;10;8.7.3;en
+iPhone 14;15.5;8.7.3;ru
+Xiaomi Redmi Note 10;11;8.5.1;ru
+Xiaomi Redmi Note 9;13;8.5.1;ru
+OnePlus 7;11;8.4.2;ru
+iPhone X;15.5;8.5.1;ru
+iPhone 12 Pro;13.7;8.5.1;en
+Google Pixel 3;10;8.4.2;ru
+Samsung Galaxy Note 20;9;8.8.4;ru
+OnePlus Nord;11;8.4.2;en
+Xiaomi Mi 9;9;8.8.4;ru
+Xiaomi Mi 10;9;8.8.4;en
+iPhone 14;15.2;8.7.3;ru
+Google Pixel 2;12;8.8.4;en
+Google Pixel 5;10;8.4.2;en
+iPhone 13;16.0;8.6.0;en
+iPhone X;13.7;8.7.3;en
+iPhone 11;13.7;8.4.2;en
+Huawei P20;11;8.7.3;ru
+iPhone 14 Pro Max;16.0;8.5.1;en
+OnePlus 8;12;8.4.2;en
+OnePlus 9;13;8.7.3;ru
+iPhone SE;15.2;8.6.0;en
+Google Pixel 2;10;8.6.0;ru
+Google Pixel 6;10;8.4.2;ru
+iPhone 11;14.4;8.4.2;en
+Huawei Mate 20;11;8.5.1;ru
+iPhone 14;14.4;8.8.4;en
+iPhone X;15.5;8.5.1;ru
+iPhone 13 Pro;15.5;8.8.4;en
+Xiaomi Redmi Note 9;12;8.7.3;ru
+Google Pixel 3;12;8.4.2;ru
+Huawei Mate 30;13;8.5.1;en
+Poco F3;11;8.4.2;en
+iPhone 15;15.2;8.8.4;en
+Huawei P20;12;8.7.3;ru
+iPhone 12;15.2;8.4.2;ru
+iPhone 14 Pro Max;15.5;8.6.0;en
+OnePlus Nord;10;8.4.2;en
+Xiaomi Mi 11;10;8.8.4;ru
+Xiaomi Redmi Note 9;9;8.8.4;en
+iPhone 15;15.5;8.5.1;ru
+OnePlus 7;13;8.8.4;ru
+OnePlus 7T;11;8.7.3;ru
+OnePlus 7;11;8.4.2;ru
+iPhone 14;15.5;8.6.0;ru
+iPhone X;15.5;8.6.0;ru
+iPhone 13;13.7;8.6.0;en
+OnePlus 7T;11;8.8.4;en
+Huawei Mate 20;13;8.8.4;ru
+iPhone 13;16.0;8.4.2;ru
+Google Pixel 2;12;8.7.3;en
+Samsung Galaxy S10;9;8.4.2;ru
+Huawei P30;13;8.7.3;ru
+OnePlus Nord;11;8.4.2;ru
+Xiaomi Redmi Note 9;13;8.8.4;ru
+Samsung Galaxy Note 20;10;8.4.2;en
+Xiaomi Redmi Note 9;11;8.5.1;en
+Xiaomi Redmi Note 10;9;8.7.3;ru
+Huawei P40;11;8.6.0;ru
+Poco F3;12;8.5.1;en
+iPhone X;15.2;8.5.1;en
+Samsung Galaxy S21;12;8.4.2;ru
+Poco F3;11;8.5.1;en
+Xiaomi Mi 11;10;8.8.4;ru
+Poco F3;13;8.8.4;ru
+iPhone 14 Pro;13.7;8.7.3;ru
+iPhone 12;15.2;8.7.3;ru
+iPhone 15 Pro Max;15.5;8.4.2;ru
+iPhone 14 Pro Max;15.2;8.6.0;ru
+iPhone 12 Pro;15.5;8.5.1;ru
+Huawei Mate 30;11;8.5.1;en
+Samsung Galaxy S10;12;8.7.3;en
+Huawei P40;13;8.7.3;ru
+Xiaomi Redmi Note 10;9;8.7.3;en
+Poco F3;11;8.6.0;en
+iPhone SE;15.2;8.8.4;ru
+Google Pixel 3;11;8.6.0;en
+OnePlus 9;9;8.5.1;ru
+Samsung Galaxy A51;12;8.4.2;en
+OnePlus 8;11;8.7.3;ru
+Samsung Galaxy Note 20;10;8.7.3;en
+Xiaomi Mi 9;12;8.5.1;ru
+iPhone 13 Pro;16.0;8.8.4;ru
+iPhone 14;13.7;8.5.1;ru
+OnePlus 8;11;8.7.3;ru
+Samsung Galaxy A51;11;8.8.4;en
+Samsung Galaxy S10;12;8.8.4;en
+iPhone 14;15.5;8.8.4;ru
+Google Pixel 4;10;8.4.2;en
+Google Pixel 4;12;8.6.0;ru
+Samsung Galaxy S9;12;8.4.2;en
+Xiaomi Mi 9;11;8.4.2;en
+Samsung Galaxy S21;11;8.7.3;ru
+iPhone SE;16.0;8.7.3;en
+Xiaomi Redmi Note 10;11;8.5.1;en
+Samsung Galaxy S9;10;8.8.4;en
+Xiaomi Mi 11;13;8.6.0;ru
+Xiaomi Redmi Note 10;11;8.5.1;en
+Samsung Galaxy S21;10;8.6.0;en
+Huawei Mate 20;9;8.5.1;en
+iPhone 14 Pro Max;15.5;8.8.4;ru
+iPhone 12;14.4;8.5.1;ru
+iPhone 12;15.5;8.7.3;en
+Samsung Galaxy Note 20;10;8.7.3;en
+iPhone X;13.7;8.7.3;en
+iPhone 15;15.5;8.7.3;en
+Huawei P40;12;8.8.4;ru
+iPhone SE;15.2;8.8.4;en
+Poco F3;10;8.4.2;en
+iPhone 14;14.4;8.4.2;ru
+Google Pixel 6;9;8.4.2;en
+OnePlus Nord;11;8.4.2;ru
+iPhone 11;16.0;8.8.4;en
+OnePlus 6T;13;8.7.3;en
+iPhone 15;14.4;8.5.1;ru
+iPhone 15 Pro;16.0;8.4.2;en
+Google Pixel 2;10;8.6.0;en
+Xiaomi Mi 10;9;8.8.4;en
+Huawei Mate 20;10;8.6.0;ru
+OnePlus 9;10;8.5.1;ru
+Huawei Mate 20;12;8.7.3;en
+iPhone 14;14.4;8.7.3;en
+Huawei Mate 20;13;8.6.0;en
+Huawei P20;13;8.6.0;ru
+Xiaomi Mi 11;9;8.4.2;ru
+Google Pixel 6;11;8.7.3;en
+Xiaomi Redmi Note 9;9;8.4.2;ru
+Google Pixel 6;12;8.7.3;ru
+Samsung Galaxy Note 20;10;8.8.4;en
+Google Pixel 2;11;8.5.1;en
+Xiaomi Mi 9;10;8.4.2;ru
+iPhone 14 Pro Max;15.5;8.7.3;ru
+iPhone 15 Pro;15.2;8.4.2;ru
+OnePlus 7;11;8.5.1;en
+Huawei Mate 30;13;8.4.2;ru
+Samsung Galaxy Note 20;13;8.5.1;en
+Huawei P30;9;8.4.2;en
+Samsung Galaxy S10;11;8.8.4;ru
+iPhone 15 Pro Max;13.7;8.5.1;ru
+OnePlus 8;10;8.8.4;en
+iPhone 15 Pro;15.2;8.8.4;en
+Google Pixel 2;13;8.7.3;ru
+iPhone 13;14.4;8.8.4;en
+Xiaomi Mi 11;9;8.7.3;en
+OnePlus 6T;12;8.6.0;ru
+Samsung Galaxy S9;9;8.5.1;ru
+Google Pixel 3;13;8.5.1;ru
+iPhone SE;13.7;8.5.1;en
+OnePlus Nord;9;8.6.0;en
+Huawei P40;9;8.6.0;ru
+Xiaomi Mi 10;9;8.5.1;ru
+Google Pixel 4;9;8.4.2;en
+Huawei Nova 5T;12;8.6.0;ru
+Huawei P20;9;8.4.2;en
+Google Pixel 3;9;8.6.0;ru
+iPhone 14;13.7;8.5.1;ru
+Google Pixel 6;9;8.8.4;en
+Xiaomi Redmi Note 10;11;8.8.4;ru
+Huawei Nova 5T;13;8.5.1;ru
+Huawei Nova 5T;9;8.8.4;ru
+OnePlus 6T;13;8.7.3;ru
+Google Pixel 4;9;8.7.3;ru
+iPhone 14;15.5;8.4.2;ru
+Google Pixel 4;9;8.5.1;ru
+iPhone 14;16.0;8.5.1;en
+Samsung Galaxy A51;9;8.7.3;ru
+Huawei Nova 5T;13;8.4.2;ru
+iPhone 14 Pro;13.7;8.7.3;ru
+OnePlus 8;11;8.7.3;en
+iPhone 12 Pro;16.0;8.4.2;en
+Samsung Galaxy A51;9;8.5.1;ru
+iPhone 14;15.2;8.5.1;en
+Google Pixel 2;10;8.8.4;en
+Google Pixel 2;9;8.5.1;ru
+Google Pixel 5;13;8.5.1;ru
+Samsung Galaxy S20;10;8.4.2;ru
+iPhone 13 Pro;13.7;8.5.1;en
+Huawei Mate 30;9;8.6.0;ru
+iPhone X;14.4;8.7.3;en
+OnePlus 7T;11;8.5.1;ru
+Xiaomi Redmi Note 10;11;8.4.2;en
+Google Pixel 4;9;8.5.1;ru
+OnePlus 7T;9;8.5.1;en
+Samsung Galaxy S10;11;8.6.0;ru
+iPhone 15 Pro Max;14.4;8.8.4;ru
+Google Pixel 3;12;8.8.4;ru
+Google Pixel 3;9;8.7.3;ru
+OnePlus 6T;11;8.4.2;ru
+Xiaomi Mi 11;12;8.8.4;en
+OnePlus Nord;12;8.4.2;ru
+Huawei P20;9;8.7.3;ru
+iPhone 15 Pro;15.5;8.6.0;ru
+Huawei Mate 30;13;8.7.3;ru
+OnePlus 7T;9;8.4.2;en
+iPhone 15;16.0;8.4.2;ru
+OnePlus Nord;9;8.4.2;ru
+Huawei Mate 30;9;8.7.3;en
+Google Pixel 4;13;8.6.0;ru
+Huawei P20;13;8.7.3;ru
+iPhone 15;15.2;8.4.2;ru
+Xiaomi Redmi Note 10;12;8.5.1;ru
+Samsung Galaxy S9;12;8.4.2;en
+iPhone 11;14.4;8.5.1;ru
+Xiaomi Redmi Note 9;13;8.4.2;en
+iPhone 14 Pro Max;14.4;8.6.0;en
+Huawei P20;10;8.4.2;en
+Xiaomi Mi 9;12;8.5.1;ru
+Xiaomi Mi 10;10;8.7.3;en
+iPhone 14 Pro Max;15.2;8.4.2;en
+Google Pixel 3;13;8.7.3;en
+iPhone 12 Pro;13.7;8.7.3;en
+Huawei P40;9;8.5.1;en
+Google Pixel 2;10;8.7.3;ru
+Samsung Galaxy S10;13;8.8.4;ru
+Google Pixel 2;9;8.6.0;ru
+OnePlus 8;10;8.4.2;en
+OnePlus Nord;10;8.8.4;en
+Google Pixel 4;10;8.8.4;en
+OnePlus 6T;9;8.4.2;en
+iPhone 11;15.2;8.7.3;en
+Google Pixel 6;13;8.4.2;ru
+Poco F3;9;8.8.4;ru
+Huawei Mate 20;10;8.7.3;en
+Xiaomi Mi 9;11;8.7.3;ru
+Huawei Nova 5T;9;8.6.0;en
+Huawei P30;9;8.4.2;ru
+iPhone 14 Pro;15.5;8.8.4;ru
+Huawei P40;10;8.5.1;ru
+Xiaomi Redmi Note 9;9;8.5.1;ru
+Huawei P20;10;8.7.3;en
+iPhone 14 Pro;13.7;8.5.1;ru
+Huawei Mate 20;13;8.5.1;ru
+Samsung Galaxy S9;12;8.6.0;en
+iPhone 13 Pro;14.4;8.8.4;en
+iPhone 12 Pro;14.4;8.5.1;ru
+iPhone SE;16.0;8.5.1;ru
+Xiaomi Redmi Note 9;9;8.4.2;en
+Samsung Galaxy A51;11;8.6.0;en
+iPhone 15 Pro;13.7;8.5.1;ru
+iPhone 15;16.0;8.4.2;ru
+Google Pixel 2;11;8.8.4;en
+Samsung Galaxy Note 20;9;8.4.2;ru
+Google Pixel 4;11;8.6.0;en
+OnePlus 8;10;8.6.0;en
+Huawei P40;9;8.8.4;en
+iPhone 13;14.4;8.7.3;en
+Samsung Galaxy S20;12;8.6.0;en
+Samsung Galaxy S21;13;8.7.3;en
+iPhone 14 Pro;16.0;8.6.0;en
