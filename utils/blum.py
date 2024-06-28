@@ -10,7 +10,7 @@ import asyncio
 import random
 
 class Blum:
-    def __init__(self, thread: int, account: str, proxy : str, add_info : list = []):
+    def __init__(self, thread: int, account: str, proxy : str):
         self.thread = thread
         self.name = account
         if proxy:
@@ -21,15 +21,9 @@ class Blum:
                 "username": proxy.split(':')[2],
                 "password": proxy.split(':')[3],
             }
-            if add_info!=[]:
-                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR, proxy=proxy_client,device_model=add_info[0],system_version=add_info[1],app_version=add_info[2],lang_code=add_info[3])
-            else:
-                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR, proxy=proxy_client)
+            self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR, proxy=proxy_client)
         else:
-            if add_info!=[]:
-                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR,device_model=add_info[0],system_version=add_info[1], app_version=add_info[2],lang_code=add_info[3])
-            else:
-                self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR)
+            self.client = Client(name=account, api_id=config.API_ID, api_hash=config.API_HASH, workdir=config.WORKDIR)
                 
         if proxy:
             self.proxy = f"{config.PROXY_TYPE}://{proxy.split(':')[2]}:{proxy.split(':')[3]}@{proxy.split(':')[0]}:{proxy.split(':')[1]}"
