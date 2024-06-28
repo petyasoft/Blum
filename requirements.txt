@@ -3,6 +3,5 @@ tgcrypto==1.2.5
 loguru==0.7.2
 aiohttp==3.9.5
 fake-useragent==1.5.1
-aiogram==2.23.1
 requests==2.28.1
 
