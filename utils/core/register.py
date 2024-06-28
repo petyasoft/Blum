@@ -10,9 +10,6 @@ async def create_sessions():
         if not session_name:
             return
         
-        with open('fake_info.txt','r') as file:
-            fake_info = [i.strip() for i in file.readlines()]
-                
         if USE_PROXY:
             proxy_dict = {}
             with open('proxy.txt','r') as file:
@@ -29,18 +26,13 @@ async def create_sessions():
                     "username": proxy.split(':')[2],
                     "password": proxy.split(':')[3],
                 }
-                add_info = random.choice(fake_info)
                 
                 session = pyrogram.Client(
                     api_id=config.API_ID,
                     api_hash=config.API_HASH,
                     name=session_name,
                     workdir=config.WORKDIR,
-                    proxy=proxy_client,
-                    device_model=add_info[0],
-                    system_version=add_info[1],
-                    app_version=add_info[2],
-                    lang_code=add_info[3]
+                    proxy=proxy_client
                 )
 
                 async with session:
@@ -48,17 +40,12 @@ async def create_sessions():
 
                 logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} PROXY {proxy.split(":")[0]}')
             else:
-                add_info = random.choice(fake_info)
                 
                 session = pyrogram.Client(
                     api_id=config.API_ID,
                     api_hash=config.API_HASH,
                     name=session_name,
-                    workdir=config.WORKDIR,
-                    device_model=add_info[0],
-                    system_version=add_info[1],
-                    app_version=add_info[2],
-                    lang_code=add_info[3]
+                    workdir=config.WORKDIR
                 )
 
                 async with session:
@@ -72,11 +59,7 @@ async def create_sessions():
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 name=session_name,
-                workdir=config.WORKDIR,
-                device_model=add_info[0],
-                system_version=add_info[1],
-                app_version=add_info[2],
-                lang_code=add_info[3]
+                workdir=config.WORKDIR
             )
 
             async with session:
