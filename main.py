@@ -19,8 +19,6 @@ async def main():
         accounts = await Accounts().get_accounts()
                 
         tasks = []
-        with open('fake_info.txt','r') as file:
-            fake_info = [i.strip() for i in file.readlines()]
         if USE_PROXY:
             proxy_dict = {}
             with open('proxy.txt','r',encoding='utf-8') as file:
@@ -29,12 +27,12 @@ async def main():
                     proxy_dict[name] = prox
             for thread, account in enumerate(accounts):
                 if account in proxy_dict:
-                    tasks.append(asyncio.create_task(Blum(account=account, thread=thread, proxy=proxy_dict[account],add_info=fake_info[thread]).main()))
+                    tasks.append(asyncio.create_task(Blum(account=account, thread=thread, proxy=proxy_dict[account]).main()))
                 else:
-                    tasks.append(asyncio.create_task(Blum(account=account, thread=thread,proxy = None,add_info=fake_info[thread]).main()))
+                    tasks.append(asyncio.create_task(Blum(account=account, thread=thread,proxy = None).main()))
         else:
             for thread, account in enumerate(accounts):
-                tasks.append(asyncio.create_task(Blum(account=account, thread=thread,proxy = None,add_info=fake_info[thread]).main()))
+                tasks.append(asyncio.create_task(Blum(account=account, thread=thread,proxy = None).main()))
         await asyncio.gather(*tasks)
 
 if __name__ == '__main__':
