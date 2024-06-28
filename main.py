@@ -4,7 +4,6 @@ from utils.blum import Blum
 from data.config import hello,USE_PROXY,USE_TG_BOT,BOT_TOKEN
 import asyncio
 import os
-from aiogram import Bot, Dispatcher, executor, types
 
 async def main():
     print(hello)
