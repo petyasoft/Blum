@@ -25,7 +25,7 @@ POINTS = [100, 140] #[min, max]
 SPEND_DIAMONDS = True # True/False
 
 # сон между играми
-SLEEP_GAME_TIME = [100,200] #[min,max]
+SLEEP_GAME_TIME = [30,50] #[min,max]
 
 # мини задержки
 MINI_SLEEP = [3,7] #[min,max]
