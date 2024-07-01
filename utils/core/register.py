@@ -53,7 +53,6 @@ async def create_sessions():
 
                 logger.success(f'Добавлена сессия +{user_data.phone_number} @{user_data.username} PROXY : NONE')
         else:
-            add_info = random.choice(fake_info)
             
             session = pyrogram.Client(
                 api_id=config.API_ID,
