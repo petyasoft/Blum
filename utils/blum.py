@@ -37,11 +37,15 @@ class Blum:
 
     async def main(self):
         await asyncio.sleep(random.randint(*config.ACC_DELAY))
-        login = await self.login()
-        if login == False:
-            await self.session.close()
-            return 0
-        logger.info(f"main | Thread {self.thread} | {self.name} | Start! | PROXY : {self.proxy}")
+        try:
+            login = await self.login()
+            if login == False:
+                await self.session.close()
+                return 0
+            logger.info(f"main | Thread {self.thread} | {self.name} | Start! | PROXY : {self.proxy}")
+        except Exception as err:
+                logger.error(f"main | Thread {self.thread} | {self.name} | {err}")
+            
         while True:
             try:
                 valid = await self.is_token_valid()
