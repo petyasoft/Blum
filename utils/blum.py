@@ -45,6 +45,7 @@ class Blum:
             logger.info(f"main | Thread {self.thread} | {self.name} | Start! | PROXY : {self.proxy}")
         except Exception as err:
             logger.error(f"main | Thread {self.thread} | {self.name} | {err}")
+            await self.session.close()
             return 0
             
         while True:
