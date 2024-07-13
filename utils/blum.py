@@ -134,7 +134,7 @@ class Blum:
             tg_web_data = await self.get_tg_web_data()
             if tg_web_data == False:
                 return False
-            json_data = {"query": await self.get_tg_web_data()}
+            json_data = {"query": tg_web_data}
             resp = await self.session.post("https://gateway.blum.codes/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP", json=json_data,proxy = self.proxy)
             resp = await resp.json()
             self.ref_token = resp.get("token").get("refresh")
