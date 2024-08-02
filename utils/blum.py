@@ -262,6 +262,10 @@ class Blum:
         logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
         if 'message' in await response.json():
             logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
+            valid = await self.is_token_valid()
+            if not valid:
+                logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
+                await self.refresh()
             return
         text = (await response.json())['gameId']
         count = random.randint(*config.POINTS)
