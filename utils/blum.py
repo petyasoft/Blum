@@ -32,7 +32,17 @@ class Blum:
             
         self.auth_token = ""
         self.ref_token=""
-        headers = {'User-Agent': UserAgent(os='android').random}
+        headers = {
+            'accept': 'application/json, text/plain, */*',
+            'cache-control': 'no-cache',
+            'content-type': 'application/json',
+            'origin': 'https://telegram.blum.codes',
+            'pragma': 'no-cache',
+            'priority': 'u=1, i',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': UserAgent(os='android').random}
         self.session = aiohttp.ClientSession(headers=headers, trust_env=True, connector=aiohttp.TCPConnector(verify_ssl=False))
 
     async def main(self):
@@ -135,7 +145,7 @@ class Blum:
             if tg_web_data == False:
                 return False
             json_data = {"query": tg_web_data}
-            resp = await self.session.post("https://gateway.blum.codes/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP", json=json_data,proxy = self.proxy)
+            resp = await self.session.post("https://user-domain.blum.codes/api/v1/auth/provider/PROVIDER_TELEGRAM_MINI_APP", json=json_data,proxy = self.proxy)
             resp = await resp.json()
             self.ref_token = resp.get("token").get("refresh")
             self.session.headers['Authorization'] = "Bearer " + (resp).get("token").get("access")
@@ -170,7 +180,7 @@ class Blum:
     
     async def get_referral_info(self):
         try:
-            resp = await self.session.get("https://gateway.blum.codes/v1/friends/balance",proxy = self.proxy)
+            resp = await self.session.get("https://user-domain.blum.codes/api/v1/friends/balance",proxy = self.proxy)
             resp_json = await resp.json()
             if resp_json['canClaim'] == True:
                 claimed = await self.claim_referral()
@@ -179,7 +189,7 @@ class Blum:
             pass
     
     async def claim_referral(self):
-        resp = await self.session.post("https://gateway.blum.codes/v1/friends/claim",proxy = self.proxy)
+        resp = await self.session.post("https://user-domain.blum.codes/api/v1/friends/claim",proxy = self.proxy)
         resp_json = await resp.json()
         return resp_json['claimBalance']
     
@@ -214,7 +224,7 @@ class Blum:
             logger.error(f"tasks | Thread {self.thread} | {self.name} | {err}")
     
     async def is_token_valid(self):
-        response = await self.session.get("https://gateway.blum.codes/v1/user/me",proxy=self.proxy)
+        response = await self.session.get("https://user-domain.blum.codes/api/v1/user/me",proxy=self.proxy)
         
         if response.status == 200:
             return True
@@ -234,7 +244,7 @@ class Blum:
         if "authorization" in self.session.headers:
             del self.session.headers['authorization']
             
-        response = await self.session.post("https://gateway.blum.codes/v1/auth/refresh",json=refresh_payload,proxy=self.proxy)
+        response = await self.session.post("https://user-domain.blum.codes/api/v1/auth/refresh",json=refresh_payload,proxy=self.proxy)
         
         if response.status == 200:
             data = await response.json()  
