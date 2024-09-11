@@ -55,6 +55,31 @@
 
 2. The software will work with all accounts using the single `API_ID` and `API_HASH`. No need to change them for each account.
 
+3. After adding `sessions`, you can build a container and run the bot in the background. 
+
+   Building:
+
+   ```bash
+   docker build -t blum-telegram-bot .
+   ```
+   Running:
+   ```bash
+   docker run -d --name blum-telegram-bot blum-telegram-bot
+   ```
+   Stopping:
+   ```bash
+   docker stop blum-telegram-bot
+   ```
+
+4. If you don't want use Docker you can after running bot via
+
+   ```bash
+   python main.py -a 1
+   ```
+
+   It will automatically choose first option in the menu after start
+
+
 ## Important Notes
 
 - **Python Version:** The software runs on Python 3.11. Using a different version may cause errors.

@@ -4,11 +4,17 @@ from utils.blum import Blum
 from data.config import hello,USE_PROXY,USE_TG_BOT,BOT_TOKEN
 import asyncio
 import os
+import argparse
 
 async def main():
     print(hello)
-    action = int(input('Выберите действие:\n1. Начать сбор монет\n2. Создать сессию\n>'))
-    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-a', '--action', type=int, help='Action to perform')
+
+    action = parser.parse_args().action
+    if action not in [1, 2]:
+        action = int(input('Выберите действие:\n1. Начать сбор монет\n2. Создать сессию\n> '))
+
     if not os.path.exists('sessions'):
         os.mkdir('sessions')
     

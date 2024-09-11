@@ -79,17 +79,22 @@ class Blum:
                 
                 await self.do_tasks()
                 await asyncio.sleep(random.randint(*config.MINI_SLEEP))
-                
-                if config.SPEND_DIAMONDS:
-                    diamonds_balance = await self.get_diamonds_balance()
-                    logger.info(f"main | Thread {self.thread} | {self.name} | Have {diamonds_balance} diamonds!")
-                    for _ in range(diamonds_balance):
-                        await self.game()
-                        await asyncio.sleep(random.randint(*config.SLEEP_GAME_TIME))
-                        
+
+                diamonds_balance = await self.get_diamonds_balance()
+
+
+
+
                 if start_time is None and end_time is None:
                     await self.start()
                     logger.info(f"main | Thread {self.thread} | {self.name} | Start farming!")
+                elif config.SPEND_DIAMONDS and diamonds_balance > config.MIN_DIAMONDS:
+                    diamonds_balance = await self.get_diamonds_balance()
+                    logger.info(f"main | Thread {self.thread} | {self.name} | Have {diamonds_balance} diamonds! Can spend {diamonds_balance - config.MIN_DIAMONDS} diamonds!")
+                    for i in range(diamonds_balance - config.MIN_DIAMONDS):
+                        logger.info(f"main | Thread {self.thread} | {self.name} | Can spend {diamonds_balance - config.MIN_DIAMONDS - i} diamonds!")
+                        await self.game()
+                        await asyncio.sleep(random.randint(*config.SLEEP_GAME_TIME))
                 elif start_time is not None and end_time is not None and timestamp >= end_time:
                     timestamp, balance = await self.claim()
                     logger.success(f"main | Thread {self.thread} | {self.name} | Claimed reward! Balance: {balance}")
