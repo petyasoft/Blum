@@ -215,33 +215,26 @@ class Blum:
     
     async def do_tasks(self):
         resp = await self.session.get("https://game-domain.blum.codes/api/v1/tasks",proxy = self.proxy)
-        resp_json = await resp.json()
+        resp_json = (await resp.json())
         if 'message' in resp_json:
             if not (await self.is_token_valid()):
                 await self.refresh()
             return 0
         try:
-            for task in resp_json:
+            for task in resp_json[0]['subSections']:
+                if task['title'] == "Frens":
+                    continue
                 tasks = task['tasks']
                 for task in tasks:
-                    if "subTasks" in task:
-                        for subtask in task['subTasks']:
-                            if subtask['status'] == "NOT_STARTED":
-                                await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{subtask['id']}/start",proxy=self.proxy)
-                                logger.info(f"tasks | Thread {self.thread} | {self.name} | Summer Quest | TRY DO {subtask['title']} task!")
-                                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
-                            elif subtask['status'] == "READY_FOR_CLAIM":
-                                answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{subtask['id']}/claim",proxy=self.proxy)
-                                answer = await answer.json()
-                                logger.success(f"tasks | Thread {self.thread} | {self.name} | Summer Quest | DONE {subtask['title']} task!")
-                                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
-                    else:  
+                    if random.randint(0,4) == 0:
                         if task['status'] == "NOT_STARTED":
                             await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
                             await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                         elif task['status'] == "READY_FOR_CLAIM":
                             answer = await self.session.post(f"https://game-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
                             answer = await answer.json()
+                            if 'message' in answer:
+                                continue
                             logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
                             await asyncio.sleep(random.randint(*config.MINI_SLEEP))
         except Exception as err:
