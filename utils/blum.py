@@ -77,8 +77,9 @@ class Blum:
                 await self.get_referral_info()
                 await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 
-                await self.do_tasks()
-                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
+                if config.DO_TASKS:
+                    await self.do_tasks()
+                    await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 
                 if config.SPEND_DIAMONDS:
                     diamonds_balance = await self.get_diamonds_balance()
