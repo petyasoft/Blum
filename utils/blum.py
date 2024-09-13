@@ -292,6 +292,9 @@ class Blum:
 
         response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
         logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
+        if 'Invalid jwt token' in await response.text():
+            logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
+            await self.refresh()
         if 'message' in await response.json():
             logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
             valid = await self.is_token_valid()
