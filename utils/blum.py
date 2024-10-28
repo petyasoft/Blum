@@ -339,8 +339,8 @@ class Blum:
                     await self.refresh()
             else:
                 pass
-        except:
-            pass
+        except Exception as err:
+            logger.error(f"game | Thread {self.thread} | {self.name} | {err}")
     
     async def claim_diamond(self):
         resp = await self.session.post("https://game-domain.blum.codes/api/v1/daily-reward?offset=-180", proxy=self.proxy)
