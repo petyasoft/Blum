@@ -308,36 +308,38 @@ class Blum:
         return resp_json['playPasses']
     
     async def game(self):
-
-        response = await self.session.post('https://game-domain.blum.codes/api/v2/game/play', proxy=self.proxy)
-        logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
-        if 'Invalid jwt token' in await response.text():
-            logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
-            await self.refresh()
-        if 'message' in await response.json():
-            logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
-            valid = await self.is_token_valid()
-            if not valid:
+        try:
+            response = await self.session.post('https://game-domain.blum.codes/api/v2/game/play', proxy=self.proxy)
+            logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
+            if 'Invalid jwt token' in await response.text():
                 logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
                 await self.refresh()
-            return
-        text = (await response.json())['gameId']
-        count = random.randint(*config.POINTS)
-        if count >=160:
-            await asyncio.sleep(30+(count-160)//7*4)
-        else:
-            await asyncio.sleep(30)
+            if 'message' in await response.json():
+                logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
+                valid = await self.is_token_valid()
+                if not valid:
+                    logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
+                    await self.refresh()
+                return
+            text = (await response.json())['gameId']
+            count = random.randint(*config.POINTS)
+            if count >=160:
+                await asyncio.sleep(30+(count-160)//7*4)
+            else:
+                await asyncio.sleep(30)
 
-        payload = await get_payload(gameId=text,points=count)
-        response = await self.session.post('https://game-domain.blum.codes/api/v2/game/claim', json={'payload':payload}, proxy=self.proxy)
-        if await response.text() == "OK":
-            logger.success(f"game | Thread {self.thread} | {self.name} | Claimed DROP GAME ! Claimed: {count}")
-        elif "Invalid jwt token" in await response.text():
-            valid = await self.is_token_valid()
-            if not valid:
-                logger.warning(f"game | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
-                await self.refresh()
-        else:
+            payload = await get_payload(gameId=text,points=count)
+            response = await self.session.post('https://game-domain.blum.codes/api/v2/game/claim', json={'payload':payload}, proxy=self.proxy)
+            if await response.text() == "OK":
+                logger.success(f"game | Thread {self.thread} | {self.name} | Claimed DROP GAME ! Claimed: {count}")
+            elif "Invalid jwt token" in await response.text():
+                valid = await self.is_token_valid()
+                if not valid:
+                    logger.warning(f"game | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
+                    await self.refresh()
+            else:
+                pass
+        except:
             pass
     
     async def claim_diamond(self):
