@@ -4,10 +4,13 @@ from utils.core import logger
 from fake_useragent import UserAgent
 from pyrogram import Client
 from data import config
-
+from utils.payload import get_payload
 import aiohttp
 import asyncio
 import random
+import re
+import json
+import os
 
 class Blum:
     def __init__(self, thread: int, account: str, proxy : str):
@@ -32,6 +35,8 @@ class Blum:
             
         self.auth_token = ""
         self.ref_token=""
+        
+        ua = self.set_useragent()
         headers = {
             'accept': 'application/json, text/plain, */*',
             'cache-control': 'no-cache',
@@ -42,7 +47,7 @@ class Blum:
             'sec-fetch-dest': 'empty',
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'same-site',
-            'user-agent': UserAgent(os='android').random}
+            'user-agent': ua}
         self.session = aiohttp.ClientSession(headers=headers, trust_env=True, connector=aiohttp.TCPConnector(verify_ssl=False))
 
     async def main(self):
@@ -81,7 +86,7 @@ class Blum:
                     await self.do_tasks()
                     await asyncio.sleep(random.randint(*config.MINI_SLEEP))
                 
-                if config.SPEND_DIAMONDS:
+                if config.DROP_GAME:
                     diamonds_balance = await self.get_diamonds_balance()
                     logger.info(f"main | Thread {self.thread} | {self.name} | Have {diamonds_balance} diamonds!")
                     for _ in range(diamonds_balance):
@@ -229,16 +234,29 @@ class Blum:
                             continue
                         tasks = task['tasks']
                         for task in tasks:
-                            if task['status'] == "NOT_STARTED":
-                                await self.session.post(f"https://earn-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
-                                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
-                            elif task['status'] == "READY_FOR_CLAIM":
-                                answer = await self.session.post(f"https://earn-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
-                                answer = await answer.json()
-                                if 'message' in answer:
-                                    continue
-                                logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
-                                await asyncio.sleep(random.randint(*config.MINI_SLEEP))
+                            if 'isHidden' in task:
+                                if not task['isHidden']:
+                                    if task['status'] == "NOT_STARTED":
+                                        await self.session.post(f"https://earn-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
+                                        await asyncio.sleep(random.randint(*config.MINI_SLEEP))
+                                    elif task['status'] == "READY_FOR_CLAIM":
+                                        answer = await self.session.post(f"https://earn-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
+                                        answer = await answer.json()
+                                        if 'message' in answer:
+                                            continue
+                                        logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
+                                        await asyncio.sleep(random.randint(*config.MINI_SLEEP))
+                            else:
+                                if task['status'] == "NOT_STARTED":
+                                    await self.session.post(f"https://earn-domain.blum.codes/api/v1/tasks/{task['id']}/start",proxy=self.proxy)
+                                    await asyncio.sleep(random.randint(*config.MINI_SLEEP))
+                                elif task['status'] == "READY_FOR_CLAIM":
+                                    answer = await self.session.post(f"https://earn-domain.blum.codes/api/v1/tasks/{task['id']}/claim",proxy=self.proxy)
+                                    answer = await answer.json()
+                                    if 'message' in answer:
+                                        continue
+                                    logger.success(f"tasks | Thread {self.thread} | {self.name} | Claimed TASK reward! Claimed: {answer['reward']}")
+                                    await asyncio.sleep(random.randint(*config.MINI_SLEEP))
         except Exception as err:
             logger.error(f"tasks | Thread {self.thread} | {self.name} | {err}")
     
@@ -291,7 +309,7 @@ class Blum:
     
     async def game(self):
 
-        response = await self.session.post('https://game-domain.blum.codes/api/v1/game/play', proxy=self.proxy)
+        response = await self.session.post('https://game-domain.blum.codes/api/v2/game/play', proxy=self.proxy)
         logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
         if 'Invalid jwt token' in await response.text():
             logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
@@ -309,13 +327,9 @@ class Blum:
             await asyncio.sleep(30+(count-160)//7*4)
         else:
             await asyncio.sleep(30)
-        json_data = {
-            'gameId': text,
-            'points': count,
-        }
 
-        response = await self.session.post('https://game-domain.blum.codes/api/v1/game/claim', json=json_data, proxy=self.proxy)
-        
+        payload = await get_payload(gameId=text,points=count)
+        response = await self.session.post('https://game-domain.blum.codes/api/v2/game/claim', json={'payload':payload}, proxy=self.proxy)
         if await response.text() == "OK":
             logger.success(f"game | Thread {self.thread} | {self.name} | Claimed DROP GAME ! Claimed: {count}")
         elif "Invalid jwt token" in await response.text():
@@ -324,7 +338,7 @@ class Blum:
                 logger.warning(f"game | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
                 await self.refresh()
         else:
-            logger.error(f"game | Thread {self.thread} | {self.name} | {await response.text()}")
+            pass
     
     async def claim_diamond(self):
         resp = await self.session.post("https://game-domain.blum.codes/api/v1/daily-reward?offset=-180", proxy=self.proxy)
@@ -334,3 +348,108 @@ class Blum:
                 await self.refresh()
                 return False
         return True if txt == 'OK' else txt
+    
+    def set_useragent(self):
+        try:
+            file_path = f"data/useragents.json"
+
+            if not os.path.exists(file_path):
+                data = {self.name: self.generate_user_agent()}
+                with open(file_path, 'w', encoding="utf-8") as file:
+                    json.dump(data, file, ensure_ascii=False, indent=4)
+
+                return data[self.name]
+            else:
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as file:
+                        content = file.read()
+                        data = json.loads(content)
+
+                    if self.name in data:
+                        return data[self.name]
+
+                    else:
+                        data[self.name] = self.generate_user_agent()
+
+                        with open(file_path, 'w', encoding='utf-8') as file:
+                            file.write(json.dumps(data, ensure_ascii=False, indent=4))
+
+                        return data[self.name]
+                except json.decoder.JSONDecodeError:
+                    logger.error(f"useragent | Thread {self.thread} | {self.name} | syntax error in UserAgents json file!")
+                    return 'Mozilla/5.0 (Linux; Android 5.1.1; SAMSUNG SM-G920FQ Build/LRX22G) AppleWebKit/533.2 (KHTML, like Gecko) Chrome/50.0.1819.308 Mobile Safari/601.9'
+
+        except Exception as err:
+            logger.error(f"useragent | Thread {self.thread} | {self.name} | {err}")
+            return 'Mozilla/5.0 (Linux; Android 5.1.1; SAMSUNG SM-G920FQ Build/LRX22G) AppleWebKit/533.2 (KHTML, like Gecko) Chrome/50.0.1819.308 Mobile Safari/601.9'
+    
+
+    def extract_chrome_version(self, user_agent):
+        match = re.search(r'Chrome/(\d+\.\d+\.\d+\.\d+)', user_agent)
+        if match:
+            return match.group(1).split('.')[0]
+        return 122
+    
+    def generate_user_agent(self):
+        chrome_versions = [
+            "110.0.5481.100", "110.0.5481.104", "110.0.5481.105", 
+            "110.0.5481.106", "110.0.5481.107", "110.0.5481.110", 
+            "110.0.5481.111", "110.0.5481.115", "110.0.5481.118", 
+            "110.0.5481.120", "111.0.5563.62", "111.0.5563.64", 
+            "111.0.5563.66", "111.0.5563.67", "111.0.5563.68", 
+            "112.0.5615.49", "112.0.5615.51", "112.0.5615.53", 
+            "112.0.5615.54", "112.0.5615.55", "113.0.5672.63", 
+            "113.0.5672.64", "113.0.5672.66", "113.0.5672.67", 
+            "113.0.5672.68", "114.0.5735.90", "114.0.5735.91", 
+            "114.0.5735.92", "114.0.5735.93", "114.0.5735.94", 
+            "115.0.5790.102", "115.0.5790.103", "115.0.5790.104", 
+            "115.0.5790.105", "115.0.5790.106", "116.0.5845.97", 
+            "116.0.5845.98", "116.0.5845.99", "116.0.5845.100", 
+            "116.0.5845.101", "117.0.5938.62", "117.0.5938.63", 
+            "117.0.5938.64", "117.0.5938.65", "117.0.5938.66", 
+            "118.0.5993.90", "118.0.5993.91", "118.0.5993.92", 
+            "118.0.5993.93", "118.0.5993.94", "119.0.6049.43", 
+            "119.0.6049.44", "119.0.6049.45", "119.0.6049.46", 
+            "119.0.6049.47", "120.0.6138.72", "120.0.6138.73", 
+            "120.0.6138.74", "120.0.6138.75", "120.0.6138.76", 
+            "121.0.6219.29", "121.0.6219.30", "121.0.6219.31", 
+            "121.0.6219.32", "121.0.6219.33", "122.0.6308.16", 
+            "122.0.6308.17", "122.0.6308.18", "122.0.6308.19", 
+            "122.0.6308.20", "123.0.6374.92", "123.0.6374.93", 
+            "123.0.6374.94", "123.0.6374.95", "123.0.6374.96", 
+            "124.0.6425.5", "124.0.6425.6", "124.0.6425.7", 
+            "124.0.6425.8", "124.0.6425.9", "125.0.6544.32", 
+            "125.0.6544.33", "125.0.6544.34", "125.0.6544.35", 
+            "125.0.6544.36", "126.0.6664.99", "126.0.6664.100", 
+            "126.0.6664.101", "126.0.6664.102", "126.0.6664.103", 
+            "127.0.6780.73", "127.0.6780.74", "127.0.6780.75", 
+            "127.0.6780.76", "127.0.6780.77", "128.0.6913.45", 
+            "128.0.6913.46", "128.0.6913.47", "128.0.6913.48", 
+            "128.0.6913.49", "129.0.7026.88", "129.0.7026.89", 
+            "129.0.7026.90", "129.0.7026.91", "129.0.7026.92"
+        ]
+
+        
+        android_devices = [
+            "SAMSUNG SM-N975F", "SAMSUNG SM-G973F", "SAMSUNG SM-G991B", 
+            "SAMSUNG SM-G996B", "SAMSUNG SM-A325F", "SAMSUNG SM-A525F", 
+            "Xiaomi Redmi Note 11", "POCO X3 Pro", "POCO F3", 
+            "Xiaomi Mi 11", "Samsung Galaxy S21", "Samsung Galaxy S22", 
+            "Samsung Galaxy S23", "Samsung Galaxy A52", "Samsung Galaxy A53", 
+            "Samsung Galaxy M32", "Xiaomi 12", "OnePlus 9", 
+            "OnePlus Nord 2", "Realme GT", "Nokia G50",
+            "Huawei P40 Lite", "Honor 50"
+        ]
+
+        
+        windows_versions = [
+            "10.0", "11.0", "12.0"
+        ]
+        
+        platforms = [
+            f"Mozilla/5.0 (Windows NT {random.choice(windows_versions)}; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{random.choice(chrome_versions)} Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android {random.randint(11, 13)}; {random.choice(android_devices)}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{random.choice(chrome_versions)} Mobile Safari/537.36"
+        ]
+        
+        return random.choice(platforms)
+
