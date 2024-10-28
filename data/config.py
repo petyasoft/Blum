@@ -21,8 +21,8 @@ USE_PROXY = True # True/False
 # скок поинтов с игры
 POINTS = [100, 140] #[min, max]
 
-# тратить алмазы
-SPEND_DIAMONDS = True # True/False
+# играть дроп гейм
+DROP_GAME = True # True/False
 
 # делать таски
 DO_TASKS = True
