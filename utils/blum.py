@@ -307,38 +307,53 @@ class Blum:
             return 0
         return resp_json['playPasses']
     
+    async def claim_game(self, game_id: str, count : int):
+        try:
+            points = str(count)
+
+            data = await get_payload(game_id, points)
+            
+
+            resp = await self.session.post(f"https://game-domain.blum.codes/api/v2/game/claim", json={'payload': data},
+                                          proxy=self.proxy)
+            if resp.status != 200:
+                resp = await self.session.post(f"https://game-domain.blum.codes/api/v2/game/claim", json={'payload': data},
+                                              proxy=self.proxy)
+
+            txt = await resp.text()
+            if txt == 'OK':
+                logger.success(f"game | Thread {self.thread} | {self.name} | Claimed DROP GAME ! Claimed: {points}")
+            return True if txt == 'OK' else txt, points
+        except Exception as e:
+            logger.error(f"Error occurred during claim game: {e}")
+
+    async def start_game(self):
+        try:
+            resp = await self.session.post(f"https://game-domain.blum.codes/api/v2/game/play", proxy=self.proxy)
+            response_data = await resp.json()
+            if "gameId" in response_data:
+                logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
+                return response_data.get("gameId")
+            elif "message" in response_data:
+                logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
+                return response_data.get("message")
+        except Exception as e:
+            logger.error(f"Error occurred during start game: {e}")
+
     async def game(self):
         try:
-            response = await self.session.post('https://game-domain.blum.codes/api/v2/game/play', proxy=self.proxy)
-            logger.info(f"game | Thread {self.thread} | {self.name} | Start DROP GAME!")
-            if 'Invalid jwt token' in await response.text():
-                logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
-                await self.refresh()
-            if 'message' in await response.json():
-                logger.error(f"game | Thread {self.thread} | {self.name} | DROP GAME CAN'T START")
-                valid = await self.is_token_valid()
-                if not valid:
-                    logger.warning(f"main | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
-                    await self.refresh()
-                return
-            text = (await response.json())['gameId']
+            game_id = await self.start_game()
+            
+            if not game_id or game_id == "cannot start game":
+                return False
+            
             count = random.randint(*config.POINTS)
             if count >=160:
                 await asyncio.sleep(30+(count-160)//7*4)
             else:
                 await asyncio.sleep(30)
 
-            payload = await get_payload(gameId=text,points=count)
-            response = await self.session.post('https://game-domain.blum.codes/api/v2/game/claim', json={'payload':payload}, proxy=self.proxy)
-            if await response.text() == "OK":
-                logger.success(f"game | Thread {self.thread} | {self.name} | Claimed DROP GAME ! Claimed: {count}")
-            elif "Invalid jwt token" in await response.text():
-                valid = await self.is_token_valid()
-                if not valid:
-                    logger.warning(f"game | Thread {self.thread} | {self.name} | Token is invalid. Refreshing token...")
-                    await self.refresh()
-            else:
-                pass
+            await self.claim_game(game_id=game_id,count=count)
         except Exception as err:
             logger.error(f"game | Thread {self.thread} | {self.name} | {err}")
     
