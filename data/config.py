@@ -18,6 +18,9 @@ WORKDIR = "sessions/"
 # использование прокси
 USE_PROXY = True # True/False
 
+# путь к node.js (можно узнать командой "which node")
+NODE_PATH = 'node'
+
 # скок поинтов с игры
 POINTS = [100, 140] #[min, max]
 
