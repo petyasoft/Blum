@@ -307,11 +307,15 @@ class Blum:
             return 0
         return resp_json['playPasses']
     
-    async def claim_game(self, game_id: str, count : int):
-        try:
-            points = str(count)
+    
 
-            data = await get_payload(game_id, points)
+    async def claim_game(self, game_id: str, freeze_count):
+        try:
+            points = str(random.randint(*config.POINTS))
+            trump = str(random.randint(*[4,8]))
+            harris = str(random.randint(*[4,8]))
+
+            data = await get_payload(game_id, points, trump, harris, freeze_count)
             
 
             resp = await self.session.post(f"https://game-domain.blum.codes/api/v2/game/claim", json={'payload': data},
@@ -348,12 +352,11 @@ class Blum:
                 return False
             
             count = random.randint(*config.POINTS)
-            if count >=160:
-                await asyncio.sleep(30+(count-160)//7*4)
-            else:
-                await asyncio.sleep(30)
+            freeze_count = random.randint(*[4,8])
+            await asyncio.sleep(30 + freeze_count * 5)
 
-            await self.claim_game(game_id=game_id,count=count)
+            msg, points = await self.claim_game(game_id, freeze_count)
+            print(msg,points)
         except Exception as err:
             logger.error(f"game | Thread {self.thread} | {self.name} | {err}")
     
