@@ -312,10 +312,7 @@ class Blum:
     async def claim_game(self, game_id: str, freeze_count):
         try:
             points = str(random.randint(*config.POINTS))
-            trump = str(random.randint(*[4,8]))
-            harris = str(random.randint(*[4,8]))
-
-            data = await get_payload(game_id, points, trump, harris, freeze_count)
+            data = await get_payload(game_id, points, freeze_count)
             
 
             resp = await self.session.post(f"https://game-domain.blum.codes/api/v2/game/claim", json={'payload': data},
