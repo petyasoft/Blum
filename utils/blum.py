@@ -263,13 +263,9 @@ class Blum:
     async def is_token_valid(self):
         response = await self.session.get("https://user-domain.blum.codes/api/v1/user/me",proxy=self.proxy)
         
-        if response.status == 200:
-            return True
-        elif response.status == 401:
-            error_info = await response.json()
-            return error_info.get("code") != 16
-        else:
+        if 'Invalid jwt token' in await response.text():
             return False
+        return True
     
     async def refresh(self):
 
@@ -343,6 +339,9 @@ class Blum:
 
     async def game(self):
         try:
+            if not (await self.is_token_valid()):
+                await self.refresh()
+                
             game_id = await self.start_game()
             
             if not game_id or game_id == "cannot start game":
