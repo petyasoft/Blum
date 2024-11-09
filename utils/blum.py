@@ -352,7 +352,6 @@ class Blum:
             await asyncio.sleep(30 + freeze_count * 5)
 
             msg, points = await self.claim_game(game_id, freeze_count)
-            print(msg,points)
         except Exception as err:
             logger.error(f"game | Thread {self.thread} | {self.name} | {err}")
     
